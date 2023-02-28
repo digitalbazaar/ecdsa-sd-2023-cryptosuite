@@ -1,10 +1,10 @@
-# Eddsa 2022 Data Integrity Cryptosuite _(@digitalbazaar/eddsa-2022-cryptosuite)_
+# A Selective Disclosure Data Integrity Cryptosuite based on ECDSA _(@digitalbazaar/sd-ecdsa-2023-cryptosuite)_
 
 [![Build status](https://img.shields.io/github/workflow/status/digitalbazaar/eddsa-2022-cryptosuite/Node.js%20CI)](https://github.com/digitalbazaar/eddsa-2022-cryptosuite/actions?query=workflow%3A%22Node.js+CI%22)
 [![Coverage status](https://img.shields.io/codecov/c/github/digitalbazaar/eddsa-2022-cryptosuite)](https://codecov.io/gh/digitalbazaar/eddsa-2022-cryptosuite)
 [![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/eddsa-2022-cryptosuite.svg)](https://npm.im/@digitalbazaar/eddsa-2022-cryptosuite)
 
-> Eddsa 2022 Data Integrity Cryptosuite for use with jsonld-signatures.
+> A selective disclosure Data Integrity cryptosuite based on ECDSA for use with jsonld-signatures.
 
 ## Table of Contents
 
@@ -35,14 +35,14 @@ TBD
 To install from NPM:
 
 ```
-npm install @digitalbazaar/eddsa-2022-cryptosuite
+npm install @digitalbazaar/sd-ecdsa-2023-cryptosuite
 ```
 
 To install locally (for development):
 
 ```
-git clone https://github.com/digitalbazaar/eddsa-2022-cryptosuite.git
-cd eddsa-2022-cryptosuite
+git clone https://github.com/digitalbazaar/sd-ecdsa-2023-cryptosuite.git
+cd sd-ecdsa-2023-cryptosuite
 npm install
 ```
 
