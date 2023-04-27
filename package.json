@@ -16,6 +16,7 @@
   "dependencies": {
     "@digitalbazaar/ed25519-multikey": "^1.0.0",
     "@noble/curves": "^0.7.3",
+    "base64url-universal": "^2.0.0",
     "jsonld": "^8.1.0"
   },
   "devDependencies": {
