@@ -64,6 +64,7 @@ describe('di-sd-primitives', () => {
           {document: credential, pointers: [pointer]});
       } catch(e) {
         error = e;
+        console.log('error', error);
       }
       expect(error).to.not.exist;
       expect(result).to.exist;
@@ -78,6 +79,8 @@ describe('di-sd-primitives', () => {
           },
           'https://w3id.org/security/data-integrity/v1'
         ],
+        '@explicit': true,
+        '@requireAll': true,
         credentialSubject: {
           '@explicit': true,
           '@requireAll': true,
