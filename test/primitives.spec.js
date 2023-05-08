@@ -25,18 +25,14 @@ describe('di-sd-primitives', () => {
 
   describe('hmacCanonize()', () => {
     it('should HMAC canonize w/o blank nodes', async () => {
-      // FIXME: implement
-      const unsignedCredential = JSON.parse(JSON.stringify(credential));
-
       let result;
       let error;
       try {
         result = await primitives.hmacCanonize(
-          {document: unsignedCredential}, {documentLoader});
+          {document: credential}, {documentLoader});
       } catch(e) {
         error = e;
       }
-
       expect(error).to.not.exist;
       expect(result).to.exist;
 
@@ -55,5 +51,34 @@ describe('di-sd-primitives', () => {
 
     // FIXME: test w/blank nodes w/hmac API
     // FIXME: test w/blank nodes w/label map
+  });
+
+  describe('pointersToFrame()', () => {
+    it('should convert one JSON pointer to a frame', async () => {
+      const pointer = '/credentialSubject/id';
+
+      let result;
+      let error;
+      try {
+        result = await primitives.pointersToFrame(
+          {document: credential, pointers: [pointer]});
+      } catch(e) {
+        error = e;
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      // FIXME: implement
+      const expectedFrame = {};
+      result.should.deep.equal(expectedFrame);
+    });
+
+    it('should convert N JSON pointers to a frame', async () => {
+      // FIXME:
+    });
+
+    it('should select data matching JSON pointers via frame', async () => {
+      // FIXME:
+    });
   });
 });
