@@ -1,33 +1,42 @@
 /*!
- * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2023 Digital Bazaar, Inc. All rights reserved.
  */
 export const controller = 'https://example.edu/issuers/565049';
+const publicKeyMultibase = 'zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9';
+const secretKeyMultibase = 'z42tqZ5smVag3DtDhjY9YfVwTMyVHW6SCHJi2ZMrD23DGYS3';
+const id = `${controller}#${publicKeyMultibase}`;
 
-export const mockPublicEd25519Multikey = {
+export const mockPublicEcdsaMultikey = {
   '@context': 'https://w3id.org/security/multikey/v1',
   type: 'Multikey',
   controller,
-  id: controller + '#z6MkwXG2WjeQnNxSoynSGYU8V9j3QzP3JSqhdmkHc6SaVWoT',
-  publicKeyMultibase: 'z6MkwXG2WjeQnNxSoynSGYU8V9j3QzP3JSqhdmkHc6SaVWoT'
+  id,
+  publicKeyMultibase
 };
 
-export const ed25519MultikeyKeyPair = {
+export const ecdsaMultikeyKeyPair = {
   '@context': 'https://w3id.org/security/multikey/v1',
   type: 'Multikey',
   controller,
-  id: controller + '#z6MkwXG2WjeQnNxSoynSGYU8V9j3QzP3JSqhdmkHc6SaVWoT',
-  publicKeyMultibase: 'z6MkwXG2WjeQnNxSoynSGYU8V9j3QzP3JSqhdmkHc6SaVWoT',
-  secretKeyMultibase: 'zrv3rbPamVDGvrm7LkYPLWYJ35P9audujKKsWn3x29EUiGwwhdZQd' +
-    '1iHhrsmZidtVALBQmhX3j9E5Fvx6Kr29DPt6LH'
+  id,
+  publicKeyMultibase,
+  secretKeyMultibase
 };
 
-export const controllerDocEd25519Multikey = {
+export const ecdsaSecp256KeyPair = {
+  type: 'EcdsaSecp256r1VerificationKey2019',
+  controller,
+  publicKeyMultibase,
+  secretKeyMultibase
+};
+
+export const controllerDocEcdsaMultikey = {
   '@context': [
     'https://www.w3.org/ns/did/v1',
     'https://w3id.org/security/multikey/v1'
   ],
   id: 'https://example.edu/issuers/565049',
-  assertionMethod: [mockPublicEd25519Multikey]
+  assertionMethod: [mockPublicEcdsaMultikey]
 };
 
 export const credential = {
