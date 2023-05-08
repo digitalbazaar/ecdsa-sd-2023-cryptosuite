@@ -1,10 +1,10 @@
 /*!
- * Copyright (c) 2021-2022 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2023 Digital Bazaar, Inc. All rights reserved.
  */
 import {
-  controllerDocEd25519Multikey,
-  ed25519MultikeyKeyPair,
-  mockPublicEd25519Multikey,
+  controllerDocEcdsaMultikey,
+  ecdsaMultikeyKeyPair,
+  mockPublicEcdsaMultikey,
 } from './mock-data.js';
 import dataIntegrityContext from '@digitalbazaar/data-integrity-context';
 import multikeyContext from '@digitalbazaar/multikey-context';
@@ -13,12 +13,12 @@ import {securityLoader} from '@digitalbazaar/security-document-loader';
 export const loader = securityLoader();
 
 loader.addStatic(
-  ed25519MultikeyKeyPair.controller,
-  controllerDocEd25519Multikey
+  ecdsaMultikeyKeyPair.controller,
+  controllerDocEcdsaMultikey
 );
 loader.addStatic(
-  mockPublicEd25519Multikey.id,
-  mockPublicEd25519Multikey
+  mockPublicEcdsaMultikey.id,
+  mockPublicEcdsaMultikey
 );
 
 loader.addStatic(
