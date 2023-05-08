@@ -29,7 +29,7 @@ describe('di-sd-primitives', () => {
       let error;
       try {
         result = await primitives.hmacCanonize(
-          {document: credential}, {documentLoader});
+          {document: credential, options: {documentLoader}});
       } catch(e) {
         error = e;
       }
@@ -69,7 +69,21 @@ describe('di-sd-primitives', () => {
       expect(result).to.exist;
 
       // FIXME: implement
-      const expectedFrame = {};
+      const expectedFrame = {
+        '@context': [
+          'https://www.w3.org/2018/credentials/v1',
+          {
+            AlumniCredential: 'https://schema.org#AlumniCredential',
+            alumniOf: 'https://schema.org#alumniOf'
+          },
+          'https://w3id.org/security/data-integrity/v1'
+        ],
+        credentialSubject: {
+          '@explicit': true,
+          '@requireAll': true,
+          id: 'https://example.edu/students/alice'
+        }
+      };
       result.should.deep.equal(expectedFrame);
     });
 
