@@ -17,8 +17,7 @@
     "@digitalbazaar/ecdsa-multikey": "^1.1.1",
     "base58-universal": "^2.0.0",
     "base64url-universal": "^2.0.0",
-    "jsonld": "^8.1.0",
-    "jsonpointer": "^5.0.1"
+    "jsonld": "^8.1.0"
   },
   "devDependencies": {
     "@digitalbazaar/data-integrity": "^1.0.0",
