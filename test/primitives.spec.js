@@ -98,19 +98,14 @@ describe('di-sd-primitives', () => {
           {document: alumniCredential, pointers: [pointer]});
       } catch(e) {
         error = e;
-        console.log('error', error);
       }
       expect(error).to.not.exist;
       expect(result).to.exist;
 
       const expectedFrame = {
         '@context': alumniCredential['@context'],
-        '@explicit': true,
-        '@requireAll': true,
         type: alumniCredential.type,
         credentialSubject: {
-          '@explicit': true,
-          '@requireAll': true,
           id: alumniCredential.credentialSubject.id
         }
       };
@@ -129,18 +124,13 @@ describe('di-sd-primitives', () => {
         });
       } catch(e) {
         error = e;
-        console.log('error', error);
       }
       expect(error).to.not.exist;
       expect(result).to.exist;
 
       const expectedFrame = {
         '@context': alumniCredential['@context'],
-        '@explicit': true,
-        '@requireAll': true,
         credentialSubject: {
-          '@explicit': true,
-          '@requireAll': true,
           id: alumniCredential.credentialSubject.id
         }
       };
