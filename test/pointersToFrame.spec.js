@@ -7,8 +7,10 @@ import * as primitives from '../lib/di-sd-primitives/index.js';
 import {
   alumniCredential,
   dlCredential,
-  dlCredentialNoIds
+  dlCredentialNoIds,
+  FRAME_FLAGS
 } from './mock-data.js';
+import jsonld from 'jsonld';
 import {loader} from './documentLoader.js';
 
 const documentLoader = loader.build();
@@ -111,7 +113,7 @@ describe('di-sd-primitives', () => {
       expect(result).to.exist;
 
       const expectedFrame = {
-        '@context': dlCredential['@context'],
+        '@context': dlCredentialNoIds['@context'],
         type: dlCredentialNoIds.type,
         credentialSubject: {
           driverLicense: {
@@ -177,7 +179,7 @@ describe('di-sd-primitives', () => {
       expect(result).to.exist;
 
       const expectedFrame = {
-        '@context': dlCredential['@context'],
+        '@context': dlCredentialNoIds['@context'],
         type: dlCredentialNoIds.type,
         credentialSubject: {
           driverLicense: {
@@ -192,8 +194,76 @@ describe('di-sd-primitives', () => {
       result.should.deep.equal(expectedFrame);
     });
 
-    it('should select data matching JSON pointers via frame', async () => {
-      // FIXME: implement
+    it('should select data matching N JSON pointers w/ IDs', async () => {
+      const pointers = [
+        '/credentialSubject/driverLicense/dateOfBirth',
+        '/credentialSubject/driverLicense/expirationDate'
+      ];
+
+      let result;
+      let error;
+      try {
+        const frame = await primitives.pointersToFrame(
+          {document: dlCredential, pointers});
+        const options = {...FRAME_FLAGS, safe: true, documentLoader};
+        result = await jsonld.frame(dlCredential, frame, options);
+      } catch(e) {
+        error = e;
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      const expected = {
+        '@context': dlCredential['@context'],
+        id: dlCredential.id,
+        type: dlCredential.type,
+        credentialSubject: {
+          id: dlCredential.credentialSubject.id,
+          driverLicense: {
+            type: dlCredential.credentialSubject.driverLicense.type,
+            dateOfBirth:
+              dlCredential.credentialSubject.driverLicense.dateOfBirth,
+            expirationDate:
+              dlCredential.credentialSubject.driverLicense.expirationDate
+          }
+        }
+      };
+      result.should.deep.equal(expected);
+    });
+
+    it('should select data matching N JSON pointers w/o IDs', async () => {
+      const pointers = [
+        '/credentialSubject/driverLicense/dateOfBirth',
+        '/credentialSubject/driverLicense/expirationDate'
+      ];
+
+      let result;
+      let error;
+      try {
+        const frame = await primitives.pointersToFrame(
+          {document: dlCredentialNoIds, pointers});
+        const options = {...FRAME_FLAGS, safe: true, documentLoader};
+        result = await jsonld.frame(dlCredentialNoIds, frame, options);
+      } catch(e) {
+        error = e;
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      const expected = {
+        '@context': dlCredentialNoIds['@context'],
+        type: dlCredentialNoIds.type,
+        credentialSubject: {
+          driverLicense: {
+            type: dlCredentialNoIds.credentialSubject.driverLicense.type,
+            dateOfBirth:
+              dlCredentialNoIds.credentialSubject.driverLicense.dateOfBirth,
+            expirationDate:
+              dlCredential.credentialSubject.driverLicense.expirationDate
+          }
+        }
+      };
+      result.should.deep.equal(expected);
     });
   });
 });
