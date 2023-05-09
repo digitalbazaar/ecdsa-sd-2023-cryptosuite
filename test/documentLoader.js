@@ -4,7 +4,7 @@
 import {
   controllerDocEcdsaMultikey,
   ecdsaMultikeyKeyPair,
-  mockPublicEcdsaMultikey,
+  publicEcdsaMultikey,
 } from './mock-data.js';
 import dataIntegrityContext from '@digitalbazaar/data-integrity-context';
 import multikeyContext from '@digitalbazaar/multikey-context';
@@ -17,8 +17,8 @@ loader.addStatic(
   controllerDocEcdsaMultikey
 );
 loader.addStatic(
-  mockPublicEcdsaMultikey.id,
-  mockPublicEcdsaMultikey
+  publicEcdsaMultikey.id,
+  publicEcdsaMultikey
 );
 
 loader.addStatic(

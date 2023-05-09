@@ -4,7 +4,7 @@
 import {expect} from 'chai';
 
 import * as primitives from '../lib/di-sd-primitives/index.js';
-import {credential} from './mock-data.js';
+import {alumniCredential} from './mock-data.js';
 import {loader} from './documentLoader.js';
 
 const documentLoader = loader.build();
@@ -29,7 +29,7 @@ describe('di-sd-primitives', () => {
       let error;
       try {
         result = await primitives.hmacCanonize(
-          {document: credential, options: {documentLoader}});
+          {document: alumniCredential, options: {documentLoader}});
       } catch(e) {
         error = e;
       }
@@ -38,12 +38,12 @@ describe('di-sd-primitives', () => {
 
       /* eslint-disable max-len */
       const expectedResult = [
-        '<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org#AlumniCredential> .\n',
-        '<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .\n',
-        '<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#credentialSubject> <https://example.edu/students/alice> .\n',
-        '<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuanceDate> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .\n',
-        '<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuer> <https://example.edu/issuers/565049> .\n',
-        '<https://example.edu/students/alice> <https://schema.org#alumniOf> "Example University" .\n'
+        '<urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org#AlumniCredential> .\n',
+        '<urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .\n',
+        '<urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0> <https://www.w3.org/2018/credentials#credentialSubject> <urn:uuid:d58b2365-0951-4373-96c8-e886d61829f2> .\n',
+        '<urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0> <https://www.w3.org/2018/credentials#issuanceDate> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .\n',
+        '<urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0> <https://www.w3.org/2018/credentials#issuer> <did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9> .\n',
+        '<urn:uuid:d58b2365-0951-4373-96c8-e886d61829f2> <https://schema.org#alumniOf> "Example University" .\n'
       ];
       /* eslint-enable max-len */
       result.should.deep.equal(expectedResult);
@@ -61,7 +61,7 @@ describe('di-sd-primitives', () => {
       let error;
       try {
         result = await primitives.pointersToFrame(
-          {document: credential, pointers: [pointer]});
+          {document: alumniCredential, pointers: [pointer]});
       } catch(e) {
         error = e;
         console.log('error', error);
@@ -84,7 +84,7 @@ describe('di-sd-primitives', () => {
         credentialSubject: {
           '@explicit': true,
           '@requireAll': true,
-          id: 'https://example.edu/students/alice'
+          id: alumniCredential.credentialSubject.id
         }
       };
       result.should.deep.equal(expectedFrame);
