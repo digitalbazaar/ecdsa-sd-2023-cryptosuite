@@ -44,7 +44,8 @@ export const alumniCredential = {
   '@context': [
     'https://www.w3.org/2018/credentials/v1',
     {
-      AlumniCredential: 'https://schema.org#AlumniCredential',
+      '@protected': true,
+      AlumniCredential: 'urn:example:AlumniCredential',
       alumniOf: 'https://schema.org#alumniOf'
     },
     'https://w3id.org/security/data-integrity/v1'
@@ -63,17 +64,39 @@ export const dlCredential = {
   '@context': [
     'https://www.w3.org/2018/credentials/v1',
     {
-      AlumniCredential: 'https://schema.org#AlumniCredential',
-      alumniOf: 'https://schema.org#alumniOf'
+      '@protected': true,
+      DriverLicenseCredential: 'urn:example:DriverLicenseCredential',
+      DriverLicense: {
+        '@id': 'urn:example:DriverLicense',
+        '@context': {
+          '@protected': true,
+          id: '@id',
+          type: '@type',
+          documentIdentifier: 'urn:example:documentIdentifier',
+          dateOfBirth: 'urn:example:dateOfBirth',
+          expirationDate: 'urn:example:expiration',
+          issuingAuthority: 'urn:example:issuingAuthority'
+        }
+      },
+      driverLicense: {
+        '@id': 'urn:example:driverLicense',
+        '@type': '@id'
+      }
     },
     'https://w3id.org/security/data-integrity/v1'
   ],
-  id: 'http://example.edu/credentials/1872',
-  type: ['VerifiableCredential', 'AlumniCredential'],
-  issuer: 'https://example.edu/issuers/565049',
+  id: 'urn:uuid:36245ee9-9074-4b05-a777-febff2e69757',
+  type: ['VerifiableCredential', 'DriverLicenseCredential'],
+  issuer: controller,
   issuanceDate: '2010-01-01T19:23:24Z',
   credentialSubject: {
-    id: 'https://example.edu/students/alice',
-    alumniOf: 'Example University'
+    id: 'urn:uuid:1a0e4ef5-091f-4060-842e-18e519ab9440',
+    driverLicense: {
+      type: 'DriverLicense',
+      documentIdentifier: 'T21387yc328c7y32h23f23',
+      dateOfBirth: '01-01-1990',
+      expirationDate: '01-01-2030',
+      issuingAuthority: 'VA'
+    }
   }
 };
