@@ -88,7 +88,7 @@ describe('di-sd-primitives', () => {
   });
 
   describe('pointersToFrame()', () => {
-    it('should convert one JSON pointer to a frame', async () => {
+    it('should convert one JSON pointer to a frame w/ types', async () => {
       const pointer = '/credentialSubject/id';
 
       let result;
@@ -96,6 +96,37 @@ describe('di-sd-primitives', () => {
       try {
         result = await primitives.pointersToFrame(
           {document: alumniCredential, pointers: [pointer]});
+      } catch(e) {
+        error = e;
+        console.log('error', error);
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      const expectedFrame = {
+        '@context': alumniCredential['@context'],
+        '@explicit': true,
+        '@requireAll': true,
+        type: alumniCredential.type,
+        credentialSubject: {
+          '@explicit': true,
+          '@requireAll': true,
+          id: alumniCredential.credentialSubject.id
+        }
+      };
+      result.should.deep.equal(expectedFrame);
+    });
+
+    it('should convert one JSON pointer to a frame w/o types', async () => {
+      const pointer = '/credentialSubject/id';
+
+      let result;
+      let error;
+      try {
+        result = await primitives.pointersToFrame({
+          document: alumniCredential, pointers: [pointer],
+          includeTypes: false
+        });
       } catch(e) {
         error = e;
         console.log('error', error);
