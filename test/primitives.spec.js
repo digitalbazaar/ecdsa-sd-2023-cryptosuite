@@ -201,8 +201,72 @@ describe('di-sd-primitives', () => {
       result.should.deep.equal(expectedFrame);
     });
 
-    it('should convert N JSON pointers', async () => {
-      // FIXME: implement
+    it('should convert N JSON pointers w/ IDs', async () => {
+      const pointers = [
+        '/credentialSubject/driverLicense/dateOfBirth',
+        '/credentialSubject/driverLicense/expirationDate'
+      ];
+
+      let result;
+      let error;
+      try {
+        result = await primitives.pointersToFrame(
+          {document: dlCredential, pointers});
+      } catch(e) {
+        error = e;
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      const expectedFrame = {
+        '@context': dlCredential['@context'],
+        id: dlCredential.id,
+        type: dlCredential.type,
+        credentialSubject: {
+          id: dlCredential.credentialSubject.id,
+          driverLicense: {
+            type: dlCredential.credentialSubject.driverLicense.type,
+            dateOfBirth:
+              dlCredential.credentialSubject.driverLicense.dateOfBirth,
+            expirationDate:
+              dlCredential.credentialSubject.driverLicense.expirationDate
+          }
+        }
+      };
+      result.should.deep.equal(expectedFrame);
+    });
+
+    it('should convert N JSON pointers w/o IDs', async () => {
+      const pointers = [
+        '/credentialSubject/driverLicense/dateOfBirth',
+        '/credentialSubject/driverLicense/expirationDate'
+      ];
+
+      let result;
+      let error;
+      try {
+        result = await primitives.pointersToFrame(
+          {document: dlCredentialNoIds, pointers});
+      } catch(e) {
+        error = e;
+      }
+      expect(error).to.not.exist;
+      expect(result).to.exist;
+
+      const expectedFrame = {
+        '@context': dlCredential['@context'],
+        type: dlCredentialNoIds.type,
+        credentialSubject: {
+          driverLicense: {
+            type: dlCredentialNoIds.credentialSubject.driverLicense.type,
+            dateOfBirth:
+              dlCredentialNoIds.credentialSubject.driverLicense.dateOfBirth,
+            expirationDate:
+              dlCredential.credentialSubject.driverLicense.expirationDate
+          }
+        }
+      };
+      result.should.deep.equal(expectedFrame);
     });
 
     it('should select data matching JSON pointers via frame', async () => {
