@@ -15,6 +15,7 @@
   ],
   "browser": {
     "./lib/di-sd-primitives/platform.js": "./lib/di-sd-primitives/platform-browser.js",
+    "./lib/di-sd-primitives/hash.js": "./lib/di-sd-primitives/hash-browser.js",
     "./lib/di-sd-primitives/hmac.js": "./lib/di-sd-primitives/hmac-browser.js"
   },
   "dependencies": {
