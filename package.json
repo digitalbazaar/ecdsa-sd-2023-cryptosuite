@@ -13,6 +13,10 @@
   "files": [
     "lib/**/*.js"
   ],
+  "browser": {
+    "./lib/platform.js": "./lib/platform-browser.js",
+    "./lib/hmac.js": "./lib/hmac-browser.js"
+  },
   "dependencies": {
     "@digitalbazaar/ecdsa-multikey": "^1.1.1",
     "base58-universal": "^2.0.0",
