@@ -19,7 +19,7 @@
 
 // const documentLoader = loader.build();
 
-// describe('Ecdsa2019Cryptosuite', () => {
+// describe('EcdsaSd2023Cryptosuite', () => {
 //   describe('exports', () => {
 //     it('it should have proper exports', async () => {
 //       should.exist(ecdsa2019Cryptosuite);
@@ -27,33 +27,6 @@
 //       ecdsa2019Cryptosuite.requiredAlgorithm.should.equal('P-256');
 //       ecdsa2019Cryptosuite.canonize.should.be.a('function');
 //       ecdsa2019Cryptosuite.createVerifier.should.be.a('function');
-//     });
-//   });
-
-//   describe('canonize()', () => {
-//     it('should canonize using URDNA2015 w/ n-quads', async () => {
-//       const unsignedCredential = JSON.parse(JSON.stringify(credential));
-
-//       let result;
-//       let error;
-//       try {
-//         result = await ecdsa2019Cryptosuite.canonize(
-//           unsignedCredential, {documentLoader});
-//       } catch(e) {
-//         error = e;
-//       }
-
-//       expect(error).to.not.exist;
-//       expect(result).to.exist;
-//       /* eslint-disable max-len */
-//       const expectedResult = `<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://schema.org#AlumniCredential> .
-// <http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .
-// <http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#credentialSubject> <https://example.edu/students/alice> .
-// <http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuanceDate> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-// <http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuer> <https://example.edu/issuers/565049> .
-// <https://example.edu/students/alice> <https://schema.org#alumniOf> "Example University" .\n`;
-//       /* eslint-enable max-len */
-//       result.should.equal(expectedResult);
 //     });
 //   });
 
@@ -72,8 +45,8 @@
 //       expect(error).to.not.exist;
 //       expect(verifier).to.exist;
 //       verifier.algorithm.should.equal('P-256');
-//       verifier.id.should.equal('https://example.edu/issuers/565049#zDnaekGZTb' +
-//         'QBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9');
+//       verifier.id.should.equal(
+//         'did:key:...#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9');
 //       verifier.verify.should.be.a('function');
 //     });
 
@@ -93,12 +66,12 @@
 //         expect(error).to.not.exist;
 //         expect(verifier).to.exist;
 //         verifier.algorithm.should.equal('P-256');
-//         verifier.id.should.equal('https://example.edu/issuers/565049#zDnaekG' +
-//           'ZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9');
+//         verifier.id.should.equal(
+//           'did:key:...#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9');
 //         verifier.verify.should.be.a('function');
 //       });
 
-//     it('should fail to create a verifier w/ unsupported key type', async () => {
+//     it('should fail creating verifier w/ unsupported key type', async () => {
 //       let verifier;
 //       let error;
 //       const keyPair = await EcdsaMultikey.from({...ecdsaSecp256KeyPair});
@@ -234,7 +207,8 @@
 //     });
 
 //     it('should verify a document', async () => {
-//       const suite = new DataIntegrityProof({cryptosuite: ecdsa2019Cryptosuite});
+//       const suite = new DataIntegrityProof(
+//         {cryptosuite: ecdsa2019Cryptosuite});
 //       const result = await jsigs.verify(signedCredential, {
 //         suite,
 //         purpose: new AssertionProofPurpose(),
@@ -244,7 +218,7 @@
 //       expect(result.verified).to.be.true;
 //     });
 
-//     it('should fail verification if "proofValue" is not string', async () => {
+//     it('should fail if "proofValue" is not string', async () => {
 //       const suite = new DataIntegrityProof({
 //         cryptosuite: ecdsa2019Cryptosuite
 //       });
@@ -292,7 +266,7 @@
 //       );
 //     });
 
-//     it('should fail verification if proofValue string does not start with "z"',
+//     it('should fail if "proofValue" string does not start with "u"',
 //       async () => {
 //         const suite = new DataIntegrityProof({
 //           cryptosuite: ecdsa2019Cryptosuite
