@@ -145,3 +145,9 @@ export const dlCredentialNoIds = {
     }
   }
 };
+
+// example HMAC key to use for test vectors
+export const hmacKey = new Uint8Array(32);
+// set bookends to 1 to make the key easy to spot in test data
+hmacKey[0] = 1;
+hmacKey[31] = 1;
