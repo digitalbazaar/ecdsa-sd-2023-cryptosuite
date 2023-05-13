@@ -14,8 +14,8 @@
     "lib/**/*.js"
   ],
   "browser": {
-    "./lib/di-sd-primitives/platform.js": "./lib/platform-browser.js",
-    "./lib/di-sd-primitives/hmac.js": "./lib/hmac-browser.js"
+    "./lib/di-sd-primitives/platform.js": "./lib/di-sd-primitives/platform-browser.js",
+    "./lib/di-sd-primitives/hmac.js": "./lib/di-sd-primitives/hmac-browser.js"
   },
   "dependencies": {
     "@digitalbazaar/ecdsa-multikey": "^1.1.1",
