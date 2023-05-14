@@ -152,7 +152,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
     });
   });
 
-  describe.skip('sign()', () => {
+  describe('sign()', () => {
     it('should sign a document', async () => {
       const cryptosuite = await createSignCryptosuite();
       const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
