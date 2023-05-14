@@ -299,7 +299,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       });
     });
 
-    let signedDlCredential;
+    /*let signedDlCredential;
     before(async () => {
       const cryptosuite = await createSignCryptosuite();
       const unsignedCredential = klona(dlCredential);
@@ -333,10 +333,25 @@ describe('EcdsaSd2023Cryptosuite', () => {
         purpose: new AssertionProofPurpose(),
         documentLoader
       });
-    });
+    });*/
 
-    it('should pass', async () => {
-      // FIXME:
+    it.skip('should derive a reveal document', async () => {
+      const cryptosuite = await createDiscloseCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+
+      let error;
+      try {
+        await jsigs.derive(signedAlumniCredential, {
+          suite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader
+        });
+      } catch(e) {
+        console.log('error', e);
+        error = e;
+      }
+
+      expect(error).to.not.exist;
     });
   });
 
