@@ -354,8 +354,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       expect(error.message).to.include('Nothing selected');
     });
 
-    // FIXME: address `credentialSubject: id` vs. `{id}`
-    it.skip('should derive a reveal document', async () => {
+    it('should derive a reveal document', async () => {
       const cryptosuite = await createDiscloseCryptosuite({
         selectivePointers: [
           '/credentialSubject/id'
@@ -376,8 +375,6 @@ describe('EcdsaSd2023Cryptosuite', () => {
       }
 
       expect(error).to.not.exist;
-      console.log('signed', signedAlumniCredential);
-      console.log('revealed', revealed);
 
       const expected = {
         '@context': signedAlumniCredential['@context'],
