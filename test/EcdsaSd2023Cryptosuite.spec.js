@@ -5,11 +5,14 @@ import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
 import {
   alumniCredential,
+  dlCredential,
+  dlCredentialNoIds,
   ecdsaMultikeyKeyPair
 } from './mock-data.js';
 import {DataIntegrityProof} from '@digitalbazaar/data-integrity';
 import {expect} from 'chai';
 import jsigs from 'jsonld-signatures';
+import {klona} from 'klona';
 import {loader} from './documentLoader.js';
 
 const {
@@ -155,7 +158,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
   describe('sign()', () => {
     it('should sign a document', async () => {
       const cryptosuite = await createSignCryptosuite();
-      const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
+      const unsignedCredential = klona(alumniCredential);
       const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
       const date = '2023-03-01T21:29:24Z';
       const suite = new DataIntegrityProof({
@@ -178,7 +181,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
 
     it('should fail to sign with a disclose cryptosuite', async () => {
       const cryptosuite = await createDiscloseCryptosuite();
-      const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
+      const unsignedCredential = klona(alumniCredential);
 
       const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
       const date = '2023-03-01T21:29:24Z';
@@ -204,7 +207,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
 
     it('should fail to sign with undefined term', async () => {
       const cryptosuite = await createSignCryptosuite();
-      const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
+      const unsignedCredential = klona(alumniCredential);
       unsignedCredential.undefinedTerm = 'foo';
 
       const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -230,7 +233,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
 
     it('should fail to sign with relative type URL', async () => {
       const cryptosuite = await createSignCryptosuite();
-      const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
+      const unsignedCredential = klona(alumniCredential);
       unsignedCredential.type.push('UndefinedType');
 
       const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -277,8 +280,64 @@ describe('EcdsaSd2023Cryptosuite', () => {
     });
   });
 
-  describe.skip('derive()', () => {
-    // FIXME:
+  describe('derive()', () => {
+    let signedAlumniCredential;
+    before(async () => {
+      const cryptosuite = await createSignCryptosuite();
+      const unsignedCredential = klona(alumniCredential);
+
+      const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+      const date = '2023-03-01T21:29:24Z';
+      const suite = new DataIntegrityProof({
+        signer: keyPair.signer(), date, cryptosuite
+      });
+
+      signedAlumniCredential = await jsigs.sign(unsignedCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    });
+
+    let signedDlCredential;
+    before(async () => {
+      const cryptosuite = await createSignCryptosuite();
+      const unsignedCredential = klona(dlCredential);
+
+      const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+      const date = '2023-03-01T21:29:24Z';
+      const suite = new DataIntegrityProof({
+        signer: keyPair.signer(), date, cryptosuite
+      });
+
+      signedDlCredential = await jsigs.sign(unsignedCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    });
+
+    let signedDlCredentialNoIdsCredential;
+    before(async () => {
+      const cryptosuite = await createSignCryptosuite();
+      const unsignedCredential = klona(dlCredentialNoIds);
+
+      const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+      const date = '2023-03-01T21:29:24Z';
+      const suite = new DataIntegrityProof({
+        signer: keyPair.signer(), date, cryptosuite
+      });
+
+      signedDlCredentialNoIdsCredential = await jsigs.sign(unsignedCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    });
+
+    it('should pass', async () => {
+      // FIXME:
+    });
   });
 
   describe.skip('verify()', () => {
@@ -286,7 +345,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
 
     before(async () => {
       const cryptosuite = await createSignCryptosuite();
-      const unsignedCredential = JSON.parse(JSON.stringify(alumniCredential));
+      const unsignedCredential = klona(alumniCredential);
 
       const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
       const date = '2023-03-01T21:29:24Z';
@@ -304,8 +363,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
     it('should fail with a disclose cryptosuite', async () => {
       const cryptosuite = await createDiscloseCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy =
-        JSON.parse(JSON.stringify(signedCredential));
+      const signedCredentialCopy = klona(signedCredential);
 
       const result = await jsigs.verify(signedCredentialCopy, {
         suite,
@@ -335,8 +393,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
     it('should fail if "proofValue" is not string', async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy =
-        JSON.parse(JSON.stringify(signedCredential));
+      const signedCredentialCopy = klona(signedCredential);
       // intentionally modify proofValue type to not be string
       signedCredentialCopy.proof.proofValue = {};
 
@@ -357,8 +414,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
     it('should fail verification if "proofValue" is not given', async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy =
-        JSON.parse(JSON.stringify(signedCredential));
+      const signedCredentialCopy = klona(signedCredential);
       // intentionally modify proofValue to be undefined
       signedCredentialCopy.proof.proofValue = undefined;
 
@@ -381,8 +437,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       async () => {
         const cryptosuite = await createVerifyCryptosuite();
         const suite = new DataIntegrityProof({cryptosuite});
-        const signedCredentialCopy =
-          JSON.parse(JSON.stringify(signedCredential));
+        const signedCredentialCopy = klona(signedCredential);
         // intentionally modify proofValue to not start with 'z'
         signedCredentialCopy.proof.proofValue = 'a';
 
@@ -406,8 +461,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       async () => {
         const cryptosuite = await createVerifyCryptosuite();
         const suite = new DataIntegrityProof({cryptosuite});
-        const signedCredentialCopy =
-          JSON.parse(JSON.stringify(signedCredential));
+        const signedCredentialCopy = klona(signedCredential);
         // intentionally modify proof type to be InvalidSignature2100
         signedCredentialCopy.proof.type = 'InvalidSignature2100';
 
