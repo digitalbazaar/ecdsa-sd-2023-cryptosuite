@@ -14,12 +14,12 @@ import {loader} from './documentLoader.js';
 const documentLoader = loader.build();
 
 describe('di-sd-primitives', () => {
-  describe('hmacCanonize()', () => {
-    it('should HMAC canonize w/o blank nodes', async () => {
+  describe('hmacIdCanonize()', () => {
+    it('should HMAC ID canonize w/o blank nodes', async () => {
       let result;
       let error;
       try {
-        result = await primitives.hmacCanonize(
+        result = await primitives.hmacIdCanonize(
           {document: alumniCredential, options: {documentLoader}});
       } catch(e) {
         error = e;
@@ -40,7 +40,7 @@ describe('di-sd-primitives', () => {
       result.should.deep.equal(expectedResult);
     });
 
-    it('should HMAC canonize w/ labelMap w/ blank nodes', async () => {
+    it('should HMAC ID canonize w/ labelMap w/ blank nodes', async () => {
       const labelMap = new Map([
         ['c14n0', 'c14n0_new'],
         ['c14n1', 'c14n2_new'],
@@ -50,7 +50,7 @@ describe('di-sd-primitives', () => {
       let result;
       let error;
       try {
-        result = await primitives.hmacCanonize(
+        result = await primitives.hmacIdCanonize(
           {document: dlCredentialNoIds, options: {documentLoader}, labelMap});
       } catch(e) {
         error = e;
@@ -76,12 +76,12 @@ describe('di-sd-primitives', () => {
       result.should.deep.equal(expectedResult);
     });
 
-    it('should HMAC canonize w/ hmac w/ blank nodes', async () => {
+    it('should HMAC ID canonize w/ hmac w/ blank nodes', async () => {
       let result;
       let error;
       try {
         const hmac = await primitives.createHmac({key: hmacKey});
-        result = await primitives.hmacCanonize(
+        result = await primitives.hmacIdCanonize(
           {document: dlCredentialNoIds, options: {documentLoader}, hmac});
       } catch(e) {
         error = e;
