@@ -299,7 +299,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       });
     });
 
-    /*let signedDlCredential;
+    let signedDlCredential;
     before(async () => {
       const cryptosuite = await createSignCryptosuite();
       const unsignedCredential = klona(dlCredential);
@@ -317,7 +317,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       });
     });
 
-    let signedDlCredentialNoIdsCredential;
+    /*let signedDlCredentialNoIdsCredential;
     before(async () => {
       const cryptosuite = await createSignCryptosuite();
       const unsignedCredential = klona(dlCredentialNoIds);
@@ -335,7 +335,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       });
     });*/
 
-    it.skip('should derive a reveal document', async () => {
+    it('should fail when nothing is selected', async () => {
       const cryptosuite = await createDiscloseCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
 
@@ -347,12 +347,102 @@ describe('EcdsaSd2023Cryptosuite', () => {
           documentLoader
         });
       } catch(e) {
-        console.log('error', e);
+        error = e;
+      }
+
+      expect(error).to.exist;
+      expect(error.message).to.include('Nothing selected');
+    });
+
+    // FIXME: address `credentialSubject: id` vs. `{id}`
+    it.skip('should derive a reveal document', async () => {
+      const cryptosuite = await createDiscloseCryptosuite({
+        selectivePointers: [
+          '/credentialSubject/id'
+        ]
+      });
+      const suite = new DataIntegrityProof({cryptosuite});
+
+      let error;
+      let revealed;
+      try {
+        revealed = await jsigs.derive(signedAlumniCredential, {
+          suite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader
+        });
+      } catch(e) {
         error = e;
       }
 
       expect(error).to.not.exist;
+      console.log('signed', signedAlumniCredential);
+      console.log('revealed', revealed);
+
+      const expected = {
+        '@context': signedAlumniCredential['@context'],
+        id: signedAlumniCredential.id,
+        type: signedAlumniCredential.type,
+        credentialSubject: {
+          id: signedAlumniCredential.credentialSubject.id
+        }
+      };
+      revealed['@context'].should.deep.equal(expected['@context']);
+      revealed.id.should.deep.equal(expected.id);
+      revealed.type.should.deep.equal(expected.type);
+      revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+      revealed.proof.should.not.deep.equal(
+        signedAlumniCredential.proof);
     });
+
+    it('should derive a reveal document w/N pointers', async () => {
+      const cryptosuite = await createDiscloseCryptosuite({
+        selectivePointers: [
+          '/credentialSubject/driverLicense/dateOfBirth',
+          '/credentialSubject/driverLicense/expirationDate'
+        ]
+      });
+      const suite = new DataIntegrityProof({cryptosuite});
+
+      let error;
+      let revealed;
+      try {
+        revealed = await jsigs.derive(signedDlCredential, {
+          suite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader
+        });
+      } catch(e) {
+        error = e;
+      }
+
+      expect(error).to.not.exist;
+
+      const expected = {
+        '@context': signedDlCredential['@context'],
+        id: signedDlCredential.id,
+        type: signedDlCredential.type,
+        credentialSubject: {
+          id: signedDlCredential.credentialSubject.id,
+          driverLicense: {
+            type: signedDlCredential.credentialSubject.driverLicense.type,
+            dateOfBirth:
+              signedDlCredential.credentialSubject.driverLicense.dateOfBirth,
+            expirationDate:
+              signedDlCredential.credentialSubject.driverLicense.expirationDate
+          }
+        }
+      };
+      revealed['@context'].should.deep.equal(expected['@context']);
+      revealed.id.should.deep.equal(expected.id);
+      revealed.type.should.deep.equal(expected.type);
+      revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+      revealed.proof.should.not.deep.equal(
+        signedDlCredential.proof);
+    });
+
+    // FIXME: add test with mandatory and no selectively disclosed data
+    // FIXME: add test with both mandatory and selectively disclosed data
   });
 
   describe.skip('verify()', () => {
@@ -444,8 +534,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
       expect(result.verified).to.be.false;
       expect(error.name).to.equal('TypeError');
       expect(error.message).to.equal(
-        'The proof does not include a valid "proofValue" property.'
-      );
+        'The proof does not include a valid "proofValue" property.');
     });
 
     it('should fail if "proofValue" string does not start with "u"',
@@ -467,8 +556,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
         expect(result.verified).to.be.false;
         expect(errors[0].name).to.equal('Error');
         expect(errors[0].message).to.equal(
-          'Only base58btc multibase encoding is supported.'
-        );
+          'Only base58btc multibase encoding is supported.');
       }
     );
 
