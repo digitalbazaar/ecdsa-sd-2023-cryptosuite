@@ -270,7 +270,7 @@ describe('EcdsaSd2023Cryptosuite', () => {
 
       const errorMessage = `The signer's algorithm "${signer.algorithm}" ` +
         `does not match the required algorithm for the cryptosuite ` +
-        `"${ecdsa2019Cryptosuite.requiredAlgorithm}".`;
+        `"${cryptosuite.requiredAlgorithm}".`;
 
       expect(error).to.exist;
       expect(error.message).to.equal(errorMessage);
