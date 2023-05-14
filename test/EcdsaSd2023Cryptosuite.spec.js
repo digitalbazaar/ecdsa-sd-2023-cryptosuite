@@ -335,6 +335,28 @@ describe('EcdsaSd2023Cryptosuite', () => {
       });
     });
 
+    let signedDlCredentialNoIdsMandatory;
+    before(async () => {
+      const cryptosuite = await createSignCryptosuite({
+        mandatoryPointers: [
+          '/credentialSubject/driverLicense/issuingAuthority'
+        ]
+      });
+      const unsignedCredential = klona(dlCredentialNoIds);
+
+      const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+      const date = '2023-03-01T21:29:24Z';
+      const suite = new DataIntegrityProof({
+        signer: keyPair.signer(), date, cryptosuite
+      });
+
+      signedDlCredentialNoIdsMandatory = await jsigs.sign(unsignedCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    });
+
     it('should fail when nothing is selected', async () => {
       const cryptosuite = await createDiscloseCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
@@ -470,10 +492,11 @@ describe('EcdsaSd2023Cryptosuite', () => {
           driverLicense: {
             type: signedDlCredentialNoIds.credentialSubject.driverLicense.type,
             dateOfBirth:
-            signedDlCredentialNoIds.credentialSubject.driverLicense.dateOfBirth,
+              signedDlCredentialNoIds.credentialSubject
+                .driverLicense.dateOfBirth,
             expirationDate:
-            signedDlCredentialNoIds.credentialSubject
-              .driverLicense.expirationDate
+              signedDlCredentialNoIds.credentialSubject
+                .driverLicense.expirationDate
           }
         }
       };
@@ -482,12 +505,96 @@ describe('EcdsaSd2023Cryptosuite', () => {
       revealed.type.should.deep.equal(expected.type);
       revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
       revealed.proof.should.not.deep.equal(
-        signedDlCredential.proof);
+        signedDlCredentialNoIds.proof);
       // FIXME: parse `revealed.proof.proofValue` and assert signature count
     });
 
-    // FIXME: add test with mandatory and no selectively disclosed data
-    // FIXME: add test with both mandatory and selectively disclosed data
+    it('should derive a mandatory only reveal document', async () => {
+      const cryptosuite = await createDiscloseCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+
+      let error;
+      let revealed;
+      try {
+        revealed = await jsigs.derive(signedDlCredentialNoIdsMandatory, {
+          suite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader
+        });
+      } catch(e) {
+        error = e;
+      }
+
+      expect(error).to.not.exist;
+
+      const expected = {
+        '@context': signedDlCredentialNoIdsMandatory['@context'],
+        type: signedDlCredentialNoIdsMandatory.type,
+        credentialSubject: {
+          driverLicense: {
+            type: signedDlCredentialNoIdsMandatory
+              .credentialSubject.driverLicense.type,
+            issuingAuthority:
+              signedDlCredentialNoIdsMandatory.credentialSubject
+                .driverLicense.issuingAuthority
+          }
+        }
+      };
+      revealed['@context'].should.deep.equal(expected['@context']);
+      expect(revealed.id).to.not.exist;
+      revealed.type.should.deep.equal(expected.type);
+      revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+      revealed.proof.should.not.deep.equal(
+        signedDlCredentialNoIdsMandatory.proof);
+      // FIXME: parse `revealed.proof.proofValue` and assert signature count
+    });
+
+    it('should derive a mandatory and selective reveal document', async () => {
+      const cryptosuite = await createDiscloseCryptosuite({
+        selectivePointers: [
+          '/credentialSubject/driverLicense/dateOfBirth'
+        ]
+      });
+      const suite = new DataIntegrityProof({cryptosuite});
+
+      let error;
+      let revealed;
+      try {
+        revealed = await jsigs.derive(signedDlCredentialNoIdsMandatory, {
+          suite,
+          purpose: new AssertionProofPurpose(),
+          documentLoader
+        });
+      } catch(e) {
+        error = e;
+      }
+
+      expect(error).to.not.exist;
+
+      const expected = {
+        '@context': signedDlCredentialNoIdsMandatory['@context'],
+        type: signedDlCredentialNoIdsMandatory.type,
+        credentialSubject: {
+          driverLicense: {
+            type: signedDlCredentialNoIdsMandatory
+              .credentialSubject.driverLicense.type,
+            dateOfBirth:
+            signedDlCredentialNoIdsMandatory.credentialSubject
+              .driverLicense.dateOfBirth,
+            issuingAuthority:
+              signedDlCredentialNoIdsMandatory.credentialSubject
+                .driverLicense.issuingAuthority
+          }
+        }
+      };
+      revealed['@context'].should.deep.equal(expected['@context']);
+      expect(revealed.id).to.not.exist;
+      revealed.type.should.deep.equal(expected.type);
+      revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+      revealed.proof.should.not.deep.equal(
+        signedDlCredentialNoIdsMandatory.proof);
+      // FIXME: parse `revealed.proof.proofValue` and assert signature count
+    });
   });
 
   describe.skip('verify()', () => {
