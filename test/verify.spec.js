@@ -180,7 +180,7 @@ describe('verify()', () => {
   it('should fail with a disclose cryptosuite', async () => {
     const cryptosuite = await createDiscloseCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedAlumniCredential);
+    const signedCredentialCopy = klona(revealedAlumniCredential);
 
     const result = await jsigs.verify(signedCredentialCopy, {
       suite,
@@ -198,7 +198,7 @@ describe('verify()', () => {
   it('should fail if "proofValue" is not a string', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedAlumniCredential);
+    const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally modify proofValue type to not be string
     signedCredentialCopy.proof.proofValue = {};
 
@@ -219,7 +219,7 @@ describe('verify()', () => {
   it('should fail verification if "proofValue" is not given', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedAlumniCredential);
+    const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally modify proofValue to be undefined
     signedCredentialCopy.proof.proofValue = undefined;
 
@@ -241,7 +241,7 @@ describe('verify()', () => {
     async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy = klona(signedAlumniCredential);
+      const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proofValue to not start with 'u'
       signedCredentialCopy.proof.proofValue = 'a';
 
@@ -263,7 +263,7 @@ describe('verify()', () => {
     async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy = klona(signedAlumniCredential);
+      const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proof type to be invalid
       signedCredentialCopy.proof.type = 'InvalidSignature2100';
 
@@ -283,7 +283,7 @@ describe('verify()', () => {
     async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy = klona(signedAlumniCredential);
+      const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proof cryptosuite to be invalid
       signedCredentialCopy.proof.cryptosuite = 'invalid-cryptosuite';
 
