@@ -299,7 +299,23 @@ describe('verify()', () => {
       expect(errors[0].name).to.equal('NotFoundError');
     });
 
-  // FIXME: fail unrevealed doc verification (base proof)
+  it('should fail verifying a base proof', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(signedAlumniCredential, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('TypeError');
+    expect(error.message).to.equal(
+      'The proof does not include a valid "proofValue" property.');
+  });
 
   it('should verify with only the credential subject ID', async () => {
     const cryptosuite = await createVerifyCryptosuite();
