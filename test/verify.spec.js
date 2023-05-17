@@ -328,7 +328,50 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
-  // FIXME: add negative test w/modified reveal doc
+
+  it('should fail with a simple modified reveal doc', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedAlumniCredential);
+    // intentionally modify `credentialSubject` ID
+    signedCredentialCopy.credentialSubject.id = 'urn:invalid';
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Invalid signature');
+  });
+
+  it('should fail w/added message', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedAlumniCredential);
+    // intentionally add data (should fail even if it's the same as original)
+    // because signature count is different
+    signedCredentialCopy.credentialSubject.alumniOf =
+      alumniCredential.credentialSubject.alumniOf;
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Signature count');
+  });
 
   it('should verify with revealed properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
@@ -341,7 +384,6 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
-  // FIXME: add negative test w/modified reveal doc
 
   it('should verify with revealed properties and bnodes', async () => {
     const cryptosuite = await createVerifyCryptosuite();
@@ -354,7 +396,72 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
-  // FIXME: add negative test w/modified reveal doc
+
+  it('should fail with a modified ID in bnodes reveal doc', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedDlCredentialNoIds);
+    // intentionally modify `credentialSubject` ID
+    signedCredentialCopy.credentialSubject.id = 'urn:invalid';
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Invalid signature');
+  });
+
+  it('should fail with a modified value in bnodes reveal doc', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedDlCredentialNoIds);
+    // intentionally modify some revealed value
+    signedCredentialCopy.credentialSubject.driverLicense.dateOfBirth =
+      'invalid';
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Invalid signature');
+  });
+
+  it('should fail w/added message to bnodes reveal', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedDlCredentialNoIds);
+    // intentionally add data (should fail even if it's the same as original)
+    // because signature count is different
+    signedCredentialCopy.credentialSubject.driverLicense.issuingAuthority =
+      dlCredentialNoIds.credentialSubject.driverLicense.issuingAuthority;
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Signature count');
+  });
 
   it('should verify with mandatory properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
@@ -367,7 +474,51 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
-  // FIXME: add negative test w/modified reveal doc
+
+  it('should fail w/modified mandatory property',
+    async () => {
+      const cryptosuite = await createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const signedCredentialCopy = klona(revealedMandatoryOnly);
+      signedCredentialCopy.credentialSubject.driverLicense.issuingAuthority =
+        'invalid';
+
+      const result = await jsigs.verify(signedCredentialCopy, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.false;
+      const {error} = result.results[0];
+
+      expect(result.verified).to.be.false;
+      expect(error.name).to.equal('Error');
+      expect(error.message).to.include('Invalid signature');
+    });
+
+  it('should fail w/added message to mandatory reveal', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const signedCredentialCopy = klona(revealedMandatoryOnly);
+    // intentionally add data (should fail even if it's the same as original)
+    // because signature count is different
+    signedCredentialCopy.credentialSubject.driverLicense.dateOfBirth =
+      dlCredentialNoIds.credentialSubject.driverLicense.dateOfBirth;
+
+    const result = await jsigs.verify(signedCredentialCopy, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.false;
+    const {error} = result.results[0];
+
+    expect(result.verified).to.be.false;
+    expect(error.name).to.equal('Error');
+    expect(error.message).to.include('Signature count');
+  });
 
   it('should verify with selective + mandatory properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
@@ -380,5 +531,76 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
-  // FIXME: add negative test w/modified reveal doc
+
+  it('should fail w/modified mandatory w/selective + mandatory properties',
+    async () => {
+      const cryptosuite = await createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
+      signedCredentialCopy.credentialSubject.driverLicense.issuingAuthority =
+        'invalid';
+
+      const result = await jsigs.verify(signedCredentialCopy, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.false;
+      const {error} = result.results[0];
+
+      expect(result.verified).to.be.false;
+      expect(error.name).to.equal('Error');
+      expect(error.message).to.include('Invalid signature');
+    });
+
+  it('should fail w/modified selective w/selective + mandatory properties',
+    async () => {
+      const cryptosuite = await createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
+      signedCredentialCopy.credentialSubject.driverLicense.dateOfBirth =
+        'invalid';
+
+      const result = await jsigs.verify(signedCredentialCopy, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.false;
+      const {error} = result.results[0];
+
+      expect(result.verified).to.be.false;
+      expect(error.message).to.include('Invalid signature');
+    });
+
+  it('should fail w/same signature count but different data',
+    async () => {
+      const cryptosuite = await createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
+      // intentionally add data (should fail even if it's the same as original)
+      // because signature count is different
+      signedCredentialCopy.credentialSubject.driverLicense.documentIdentifier =
+        signedDlCredentialNoIdsMandatory.credentialSubject
+          .driverLicense.documentIdentifier;
+      // intentionally delete `dateOfBirth` to keep signature count equal
+      delete signedCredentialCopy.credentialSubject.driverLicense.dateOfBirth;
+
+      const result = await jsigs.verify(signedCredentialCopy, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.false;
+      const {error} = result.results[0];
+
+      expect(result.verified).to.be.false;
+      expect(error.name).to.equal('Error');
+      // should NOT fail due to bad signature count, but due to bad signature
+      expect(error.message).to.not.include('Signature count');
+      expect(error.message).to.include('Invalid signature');
+    });
 });
