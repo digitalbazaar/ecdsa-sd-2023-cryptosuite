@@ -301,7 +301,7 @@ describe('verify()', () => {
 
   // FIXME: fail unrevealed doc verification (base proof)
 
-  it.skip('should verify with only the credential subject ID', async () => {
+  it('should verify with only the credential subject ID', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedAlumniCredential, {
@@ -312,8 +312,9 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
+  // FIXME: add negative test w/modified reveal doc
 
-  it.skip('should verify with revealed properties', async () => {
+  it('should verify with revealed properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedDlCredential, {
@@ -324,8 +325,9 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
+  // FIXME: add negative test w/modified reveal doc
 
-  it.skip('should verify with revealed properties and bnodes', async () => {
+  it('should verify with revealed properties and bnodes', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedDlCredentialNoIds, {
@@ -336,8 +338,9 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
+  // FIXME: add negative test w/modified reveal doc
 
-  it.skip('should verify with mandatory properties', async () => {
+  it('should verify with mandatory properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedMandatoryOnly, {
@@ -348,8 +351,9 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
+  // FIXME: add negative test w/modified reveal doc
 
-  it.skip('should verify with selective + mandatory properties', async () => {
+  it('should verify with selective + mandatory properties', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedSelectiveAndMandatory, {
@@ -360,4 +364,5 @@ describe('verify()', () => {
 
     expect(result.verified).to.be.true;
   });
+  // FIXME: add negative test w/modified reveal doc
 });
