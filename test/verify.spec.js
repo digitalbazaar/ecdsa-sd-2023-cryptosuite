@@ -25,7 +25,7 @@ const {purposes: {AssertionProofPurpose}} = jsigs;
 
 const documentLoader = loader.build();
 
-describe.skip('verify()', () => {
+describe('verify()', () => {
   let signedAlumniCredential;
   let revealedAlumniCredential;
   before(async () => {
@@ -128,8 +128,8 @@ describe.skip('verify()', () => {
   });
 
   let signedDlCredentialNoIdsMandatory;
-  let revealMandatoryOnly;
-  let revealSelectiveAndMandatory;
+  let revealedMandatoryOnly;
+  let revealedSelectiveAndMandatory;
   before(async () => {
     const cryptosuite = await createSignCryptosuite({
       mandatoryPointers: [
@@ -153,7 +153,7 @@ describe.skip('verify()', () => {
     {
       const cryptosuite = await createDiscloseCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      revealMandatoryOnly = await jsigs.derive(
+      revealedMandatoryOnly = await jsigs.derive(
         signedDlCredentialNoIdsMandatory, {
           suite,
           purpose: new AssertionProofPurpose(),
@@ -168,7 +168,7 @@ describe.skip('verify()', () => {
         ]
       });
       const suite = new DataIntegrityProof({cryptosuite});
-      revealSelectiveAndMandatory = await jsigs.derive(
+      revealedSelectiveAndMandatory = await jsigs.derive(
         signedDlCredentialNoIdsMandatory, {
           suite,
           purpose: new AssertionProofPurpose(),
@@ -180,7 +180,7 @@ describe.skip('verify()', () => {
   it('should fail with a disclose cryptosuite', async () => {
     const cryptosuite = await createDiscloseCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedCredential);
+    const signedCredentialCopy = klona(signedAlumniCredential);
 
     const result = await jsigs.verify(signedCredentialCopy, {
       suite,
@@ -195,22 +195,10 @@ describe.skip('verify()', () => {
       'This cryptosuite must only be used with "derive".');
   });
 
-  it('should verify a document', async () => {
+  it('should fail if "proofValue" is not a string', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const result = await jsigs.verify(signedCredential, {
-      suite,
-      purpose: new AssertionProofPurpose(),
-      documentLoader
-    });
-
-    expect(result.verified).to.be.true;
-  });
-
-  it('should fail if "proofValue" is not string', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
-    const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedCredential);
+    const signedCredentialCopy = klona(signedAlumniCredential);
     // intentionally modify proofValue type to not be string
     signedCredentialCopy.proof.proofValue = {};
 
@@ -231,7 +219,7 @@ describe.skip('verify()', () => {
   it('should fail verification if "proofValue" is not given', async () => {
     const cryptosuite = await createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
-    const signedCredentialCopy = klona(signedCredential);
+    const signedCredentialCopy = klona(signedAlumniCredential);
     // intentionally modify proofValue to be undefined
     signedCredentialCopy.proof.proofValue = undefined;
 
@@ -253,8 +241,8 @@ describe.skip('verify()', () => {
     async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy = klona(signedCredential);
-      // intentionally modify proofValue to not start with 'z'
+      const signedCredentialCopy = klona(signedAlumniCredential);
+      // intentionally modify proofValue to not start with 'u'
       signedCredentialCopy.proof.proofValue = 'a';
 
       const result = await jsigs.verify(signedCredentialCopy, {
@@ -266,9 +254,8 @@ describe.skip('verify()', () => {
       const {errors} = result.error;
 
       expect(result.verified).to.be.false;
-      expect(errors[0].name).to.equal('Error');
-      expect(errors[0].message).to.equal(
-        'Only base58btc multibase encoding is supported.');
+      expect(errors[0].name).to.equal('TypeError');
+      expect(errors[0].cause.message).to.include('Only base64url');
     }
   );
 
@@ -276,8 +263,8 @@ describe.skip('verify()', () => {
     async () => {
       const cryptosuite = await createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
-      const signedCredentialCopy = klona(signedCredential);
-      // intentionally modify proof type to be InvalidSignature2100
+      const signedCredentialCopy = klona(signedAlumniCredential);
+      // intentionally modify proof type to be invalid
       signedCredentialCopy.proof.type = 'InvalidSignature2100';
 
       const result = await jsigs.verify(signedCredentialCopy, {
@@ -291,4 +278,86 @@ describe.skip('verify()', () => {
       expect(result.verified).to.be.false;
       expect(errors[0].name).to.equal('NotFoundError');
     });
+
+  it('should fail verification if cryptosuite is not "ecdsa-sd-2023"',
+    async () => {
+      const cryptosuite = await createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const signedCredentialCopy = klona(signedAlumniCredential);
+      // intentionally modify proof cryptosuite to be invalid
+      signedCredentialCopy.proof.cryptosuite = 'invalid-cryptosuite';
+
+      const result = await jsigs.verify(signedCredentialCopy, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      const {errors} = result.error;
+
+      expect(result.verified).to.be.false;
+      expect(errors[0].name).to.equal('NotFoundError');
+    });
+
+  // FIXME: fail unrevealed doc verification (base proof)
+
+  it.skip('should verify with only the credential subject ID', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(revealedAlumniCredential, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
+
+  it.skip('should verify with revealed properties', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(revealedDlCredential, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
+
+  it.skip('should verify with revealed properties and bnodes', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(revealedDlCredentialNoIds, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
+
+  it.skip('should verify with mandatory properties', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(revealedMandatoryOnly, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
+
+  it.skip('should verify with selective + mandatory properties', async () => {
+    const cryptosuite = await createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(revealedSelectiveAndMandatory, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
 });
