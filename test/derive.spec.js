@@ -154,6 +154,8 @@ describe('derive()', () => {
     revealed.id.should.deep.equal(expected.id);
     revealed.type.should.deep.equal(expected.type);
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedAlumniCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
@@ -201,6 +203,8 @@ describe('derive()', () => {
     revealed.id.should.deep.equal(expected.id);
     revealed.type.should.deep.equal(expected.type);
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedDlCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
@@ -248,6 +252,8 @@ describe('derive()', () => {
     expect(revealed.id).to.not.exist;
     revealed.type.should.deep.equal(expected.type);
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedDlCredentialNoIds.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
@@ -288,6 +294,8 @@ describe('derive()', () => {
     expect(revealed.id).to.not.exist;
     revealed.type.should.deep.equal(expected.type);
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedDlCredentialNoIdsMandatory.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
@@ -335,6 +343,8 @@ describe('derive()', () => {
     expect(revealed.id).to.not.exist;
     revealed.type.should.deep.equal(expected.type);
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedDlCredentialNoIdsMandatory.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count

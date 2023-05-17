@@ -33,8 +33,9 @@ describe('sign()', () => {
     });
 
     let error;
+    let signedCredential;
     try {
-      await jsigs.sign(unsignedCredential, {
+      signedCredential = await jsigs.sign(unsignedCredential, {
         suite,
         purpose: new AssertionProofPurpose(),
         documentLoader
@@ -44,6 +45,8 @@ describe('sign()', () => {
     }
 
     expect(error).to.not.exist;
+    expect(signedCredential.proof).to.exist;
+    expect(signedCredential.proof['@context']).to.not.exist;
   });
 
   it('should fail to sign with a disclose cryptosuite', async () => {
