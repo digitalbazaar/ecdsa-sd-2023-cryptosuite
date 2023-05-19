@@ -1,11 +1,11 @@
 {
-  "name": "@digitalbazaar/eddsa-2022-cryptosuite",
-  "version": "1.0.1-0",
-  "description": "An Eddsa-2022 Data Integrity cryptosuite for use with jsonld-signatures.",
-  "homepage": "https://github.com/digitalbazaar/eddsa-2022-cryptosuite",
+  "name": "@digitalbazaar/ecdsa-sd-2023-cryptosuite",
+  "version": "0.0.1-0",
+  "description": "An ecdsa-sd-2023 Data Integrity cryptosuite for use with jsonld-signatures.",
+  "homepage": "https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite",
   "repository": {
     "type": "git",
-    "url": "https://github.com/digitalbazaar/eddsa-2022-cryptosuite"
+    "url": "https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite"
   },
   "license": "BSD-3-Clause",
   "type": "module",
