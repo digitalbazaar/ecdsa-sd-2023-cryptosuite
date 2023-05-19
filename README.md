@@ -1,8 +1,8 @@
 # A Selective Disclosure Data Integrity Cryptosuite based on ECDSA _(@digitalbazaar/sd-ecdsa-2023-cryptosuite)_
 
-[![Build status](https://img.shields.io/github/workflow/status/digitalbazaar/eddsa-2022-cryptosuite/Node.js%20CI)](https://github.com/digitalbazaar/eddsa-2022-cryptosuite/actions?query=workflow%3A%22Node.js+CI%22)
-[![Coverage status](https://img.shields.io/codecov/c/github/digitalbazaar/eddsa-2022-cryptosuite)](https://codecov.io/gh/digitalbazaar/eddsa-2022-cryptosuite)
-[![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/eddsa-2022-cryptosuite.svg)](https://npm.im/@digitalbazaar/eddsa-2022-cryptosuite)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/sd-ecdsa-2023-cryptosuite/main.yml)](https://github.com/digitalbazaar/sd-ecdsa-2023-cryptosuite/actions/workflow/main.yml)
+[![Coverage Status](https://img.shields.io/codecov/c/github/digitalbazaar/sd-ecdsa-2023-cryptosuite)](https://codecov.io/gh/digitalbazaar/sd-ecdsa-2023-cryptosuite)
+[![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/sd-ecdsa-2023-cryptosuite.svg)](https://npm.im/@digitalbazaar/sd-ecdsa-2023-cryptosuite)
 
 > A selective disclosure Data Integrity cryptosuite based on ECDSA for use with jsonld-signatures.
 
