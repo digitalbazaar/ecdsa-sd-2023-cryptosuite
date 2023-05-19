@@ -19,7 +19,7 @@
     "./lib/di-sd-primitives/hmac.js": "./lib/di-sd-primitives/hmac-browser.js"
   },
   "dependencies": {
-    "@digitalbazaar/ecdsa-multikey": "^1.1.2",
+    "@digitalbazaar/ecdsa-multikey": "^1.1.3",
     "base58-universal": "^2.0.0",
     "base64url-universal": "^2.0.0",
     "jsonld": "digitalbazaar/jsonld.js#canonicalIdMap",
