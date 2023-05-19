@@ -29,7 +29,7 @@ describe('verify()', () => {
   let signedAlumniCredential;
   let revealedAlumniCredential;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(alumniCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -45,7 +45,7 @@ describe('verify()', () => {
     });
 
     {
-      const cryptosuite = await createDiscloseCryptosuite({
+      const cryptosuite = createDiscloseCryptosuite({
         selectivePointers: [
           '/credentialSubject/id'
         ]
@@ -62,7 +62,7 @@ describe('verify()', () => {
   let signedDlCredential;
   let revealedDlCredential;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(dlCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -78,7 +78,7 @@ describe('verify()', () => {
     });
 
     {
-      const cryptosuite = await createDiscloseCryptosuite({
+      const cryptosuite = createDiscloseCryptosuite({
         selectivePointers: [
           '/credentialSubject/driverLicense/dateOfBirth',
           '/credentialSubject/driverLicense/expirationDate'
@@ -96,7 +96,7 @@ describe('verify()', () => {
   let signedDlCredentialNoIds;
   let revealedDlCredentialNoIds;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(dlCredentialNoIds);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -112,7 +112,7 @@ describe('verify()', () => {
     });
 
     {
-      const cryptosuite = await createDiscloseCryptosuite({
+      const cryptosuite = createDiscloseCryptosuite({
         selectivePointers: [
           '/credentialSubject/driverLicense/dateOfBirth',
           '/credentialSubject/driverLicense/expirationDate'
@@ -131,7 +131,7 @@ describe('verify()', () => {
   let revealedMandatoryOnly;
   let revealedSelectiveAndMandatory;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite({
+    const cryptosuite = createSignCryptosuite({
       mandatoryPointers: [
         '/credentialSubject/driverLicense/issuingAuthority'
       ]
@@ -151,7 +151,7 @@ describe('verify()', () => {
     });
 
     {
-      const cryptosuite = await createDiscloseCryptosuite();
+      const cryptosuite = createDiscloseCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       revealedMandatoryOnly = await jsigs.derive(
         signedDlCredentialNoIdsMandatory, {
@@ -162,7 +162,7 @@ describe('verify()', () => {
     }
 
     {
-      const cryptosuite = await createDiscloseCryptosuite({
+      const cryptosuite = createDiscloseCryptosuite({
         selectivePointers: [
           '/credentialSubject/driverLicense/dateOfBirth'
         ]
@@ -178,7 +178,7 @@ describe('verify()', () => {
   });
 
   it('should fail with a disclose cryptosuite', async () => {
-    const cryptosuite = await createDiscloseCryptosuite();
+    const cryptosuite = createDiscloseCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedAlumniCredential);
 
@@ -196,7 +196,7 @@ describe('verify()', () => {
   });
 
   it('should fail if "proofValue" is not a string', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally modify proofValue type to not be string
@@ -217,7 +217,7 @@ describe('verify()', () => {
   });
 
   it('should fail verification if "proofValue" is not given', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally modify proofValue to be undefined
@@ -239,7 +239,7 @@ describe('verify()', () => {
 
   it('should fail if "proofValue" string does not start with "u"',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proofValue to not start with 'u'
@@ -261,7 +261,7 @@ describe('verify()', () => {
 
   it('should fail verification if proof type is not DataIntegrityProof',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proof type to be invalid
@@ -281,7 +281,7 @@ describe('verify()', () => {
 
   it('should fail verification if cryptosuite is not "ecdsa-sd-2023"',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedAlumniCredential);
       // intentionally modify proof cryptosuite to be invalid
@@ -300,7 +300,7 @@ describe('verify()', () => {
     });
 
   it('should fail verifying a base proof', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(signedAlumniCredential, {
       suite,
@@ -318,7 +318,7 @@ describe('verify()', () => {
   });
 
   it('should verify with only the credential subject ID', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedAlumniCredential, {
       suite,
@@ -330,7 +330,7 @@ describe('verify()', () => {
   });
 
   it('should fail with a simple modified reveal doc', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally modify `credentialSubject` ID
@@ -351,7 +351,7 @@ describe('verify()', () => {
   });
 
   it('should fail w/added message', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedAlumniCredential);
     // intentionally add data (should fail even if it's the same as original)
@@ -374,7 +374,7 @@ describe('verify()', () => {
   });
 
   it('should verify with revealed properties', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedDlCredential, {
       suite,
@@ -386,7 +386,7 @@ describe('verify()', () => {
   });
 
   it('should verify with revealed properties and bnodes', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedDlCredentialNoIds, {
       suite,
@@ -398,7 +398,7 @@ describe('verify()', () => {
   });
 
   it('should fail with a modified ID in bnodes reveal doc', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedDlCredentialNoIds);
     // intentionally modify `credentialSubject` ID
@@ -419,7 +419,7 @@ describe('verify()', () => {
   });
 
   it('should fail with a modified value in bnodes reveal doc', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedDlCredentialNoIds);
     // intentionally modify some revealed value
@@ -441,7 +441,7 @@ describe('verify()', () => {
   });
 
   it('should fail w/added message to bnodes reveal', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedDlCredentialNoIds);
     // intentionally add data (should fail even if it's the same as original)
@@ -464,7 +464,7 @@ describe('verify()', () => {
   });
 
   it('should verify with mandatory properties', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedMandatoryOnly, {
       suite,
@@ -477,7 +477,7 @@ describe('verify()', () => {
 
   it('should fail w/modified mandatory property',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedMandatoryOnly);
       signedCredentialCopy.credentialSubject.driverLicense.issuingAuthority =
@@ -498,7 +498,7 @@ describe('verify()', () => {
     });
 
   it('should fail w/added message to mandatory reveal', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const signedCredentialCopy = klona(revealedMandatoryOnly);
     // intentionally add data (should fail even if it's the same as original)
@@ -521,7 +521,7 @@ describe('verify()', () => {
   });
 
   it('should verify with selective + mandatory properties', async () => {
-    const cryptosuite = await createVerifyCryptosuite();
+    const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedSelectiveAndMandatory, {
       suite,
@@ -534,7 +534,7 @@ describe('verify()', () => {
 
   it('should fail w/modified mandatory w/selective + mandatory properties',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
       signedCredentialCopy.credentialSubject.driverLicense.issuingAuthority =
@@ -556,7 +556,7 @@ describe('verify()', () => {
 
   it('should fail w/modified selective w/selective + mandatory properties',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
       signedCredentialCopy.credentialSubject.driverLicense.dateOfBirth =
@@ -577,7 +577,7 @@ describe('verify()', () => {
 
   it('should fail w/same signature count but different data',
     async () => {
-      const cryptosuite = await createVerifyCryptosuite();
+      const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const signedCredentialCopy = klona(revealedSelectiveAndMandatory);
       // intentionally add data (should fail even if it's the same as original)

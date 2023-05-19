@@ -24,7 +24,7 @@ const documentLoader = loader.build();
 
 describe('sign()', () => {
   it('should sign a document', async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(alumniCredential);
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
     const date = '2023-03-01T21:29:24Z';
@@ -50,7 +50,7 @@ describe('sign()', () => {
   });
 
   it('should fail to sign with a disclose cryptosuite', async () => {
-    const cryptosuite = await createDiscloseCryptosuite();
+    const cryptosuite = createDiscloseCryptosuite();
     const unsignedCredential = klona(alumniCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -76,7 +76,7 @@ describe('sign()', () => {
   });
 
   it('should fail to sign with undefined term', async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(alumniCredential);
     unsignedCredential.undefinedTerm = 'foo';
 
@@ -102,7 +102,7 @@ describe('sign()', () => {
   });
 
   it('should fail to sign with relative type URL', async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(alumniCredential);
     unsignedCredential.type.push('UndefinedType');
 
@@ -128,7 +128,7 @@ describe('sign()', () => {
   });
 
   it('should fail to sign with incorrect signer algorithm', async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
     const date = '2023-03-01T21:29:24Z';
     const signer = keyPair.signer();

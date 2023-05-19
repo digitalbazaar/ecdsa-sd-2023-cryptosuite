@@ -13,17 +13,12 @@
   "files": [
     "lib/**/*.js"
   ],
-  "browser": {
-    "./lib/di-sd-primitives/platform.js": "./lib/di-sd-primitives/platform-browser.js",
-    "./lib/di-sd-primitives/hash.js": "./lib/di-sd-primitives/hash-browser.js",
-    "./lib/di-sd-primitives/hmac.js": "./lib/di-sd-primitives/hmac-browser.js"
-  },
   "dependencies": {
+    "@digitalbazaar/di-sd-primitives": "digitalbazaar/di-sd-primitives#initial",
     "@digitalbazaar/ecdsa-multikey": "^1.1.3",
     "base58-universal": "^2.0.0",
     "base64url-universal": "^2.0.0",
     "cborg": "^1.10.2",
-    "jsonld": "digitalbazaar/jsonld.js#canonicalIdMap",
     "klona": "^2.0.6"
   },
   "devDependencies": {
