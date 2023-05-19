@@ -27,7 +27,7 @@ const documentLoader = loader.build();
 describe('derive()', () => {
   let signedAlumniCredential;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(alumniCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -45,7 +45,7 @@ describe('derive()', () => {
 
   let signedDlCredential;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(dlCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -63,7 +63,7 @@ describe('derive()', () => {
 
   let signedDlCredentialNoIds;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite();
+    const cryptosuite = createSignCryptosuite();
     const unsignedCredential = klona(dlCredentialNoIds);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
@@ -81,7 +81,7 @@ describe('derive()', () => {
 
   let signedDlCredentialNoIdsMandatory;
   before(async () => {
-    const cryptosuite = await createSignCryptosuite({
+    const cryptosuite = createSignCryptosuite({
       mandatoryPointers: [
         '/credentialSubject/driverLicense/issuingAuthority'
       ]
@@ -102,7 +102,7 @@ describe('derive()', () => {
   });
 
   it('should fail when nothing is selected', async () => {
-    const cryptosuite = await createDiscloseCryptosuite();
+    const cryptosuite = createDiscloseCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
 
     let error;
@@ -121,7 +121,7 @@ describe('derive()', () => {
   });
 
   it('should derive a reveal document', async () => {
-    const cryptosuite = await createDiscloseCryptosuite({
+    const cryptosuite = createDiscloseCryptosuite({
       selectivePointers: [
         '/credentialSubject/id'
       ]
@@ -162,7 +162,7 @@ describe('derive()', () => {
   });
 
   it('should derive a reveal document w/N pointers', async () => {
-    const cryptosuite = await createDiscloseCryptosuite({
+    const cryptosuite = createDiscloseCryptosuite({
       selectivePointers: [
         '/credentialSubject/driverLicense/dateOfBirth',
         '/credentialSubject/driverLicense/expirationDate'
@@ -211,7 +211,7 @@ describe('derive()', () => {
   });
 
   it('should derive a reveal document w/bnodes and N pointers', async () => {
-    const cryptosuite = await createDiscloseCryptosuite({
+    const cryptosuite = createDiscloseCryptosuite({
       selectivePointers: [
         '/credentialSubject/driverLicense/dateOfBirth',
         '/credentialSubject/driverLicense/expirationDate'
@@ -260,7 +260,7 @@ describe('derive()', () => {
   });
 
   it('should derive a mandatory only reveal document', async () => {
-    const cryptosuite = await createDiscloseCryptosuite();
+    const cryptosuite = createDiscloseCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
 
     let error;
@@ -302,7 +302,7 @@ describe('derive()', () => {
   });
 
   it('should derive a mandatory and selective reveal document', async () => {
-    const cryptosuite = await createDiscloseCryptosuite({
+    const cryptosuite = createDiscloseCryptosuite({
       selectivePointers: [
         '/credentialSubject/driverLicense/dateOfBirth'
       ]
