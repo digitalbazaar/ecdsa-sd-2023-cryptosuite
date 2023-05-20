@@ -139,6 +139,28 @@ export const dlCredentialNoIds = {
   }
 };
 
+export const employeeCredential = {
+  '@context': [
+    'https://www.w3.org/ns/credentials/v2',
+    'https://www.w3.org/ns/credentials/examples/v2'
+  ],
+  type: ['VerifiableCredential', 'ExampleEmployeeCredential'],
+  issuer: 'did:example:c276e12ec21ebfeb1f712ebc6f1',
+  validFrom: '2023-06-01T09:25:48Z',
+  validUntil: '2024-06-01T09:25:48Z',
+  credentialSubject: {
+    id: 'did:example:ebfeb1f712ebc6f1c276e12ec21',
+    name: 'Jane Doe',
+    employeeId: 'YB-38473',
+    jobTitle: 'Comptroller',
+    division: 'Accounting',
+    employer: {
+      id: 'did:example:c276e12ec21ebfeb1f712ebc6f1',
+      name: 'Example Corporation'
+    }
+  }
+};
+
 // example HMAC key to use for test vectors
 export const hmacKey = new Uint8Array(32);
 // set bookends to 1 to make the key easy to spot in test data
