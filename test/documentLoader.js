@@ -14,19 +14,17 @@ export const loader = securityLoader();
 
 loader.addStatic(
   ecdsaMultikeyKeyPair.controller,
-  controllerDocEcdsaMultikey
-);
+  controllerDocEcdsaMultikey);
 loader.addStatic(
   publicEcdsaMultikey.id,
-  publicEcdsaMultikey
-);
+  publicEcdsaMultikey);
 
 loader.addStatic(
   dataIntegrityContext.constants.CONTEXT_URL,
-  dataIntegrityContext.contexts.get(dataIntegrityContext.constants.CONTEXT_URL)
-);
+  dataIntegrityContext.contexts.get(
+    dataIntegrityContext.constants.CONTEXT_URL));
 
 loader.addStatic(
   multikeyContext.constants.CONTEXT_URL,
-  multikeyContext.contexts.get(multikeyContext.constants.CONTEXT_URL)
-);
+  multikeyContext.contexts.get(
+    multikeyContext.constants.CONTEXT_URL));
