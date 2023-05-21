@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 1.0.2 - 2023-05-dd
+## 1.0.2 - 2023-05-21
 
 ### Fixed
 - Ensure label map is properly compressed.
