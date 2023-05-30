@@ -161,7 +161,6 @@ const {purposes: {AssertionProofPurpose}} = jsigs;
 
 // create suite
 const suite = new DataIntegrityProof({
-  signer: keyPair.signer(),
   // disclose only the `credentialSubject.id` and any IDs and types in its
   // JSON path
   cryptosuite: createDiscloseCryptosuite({
@@ -226,7 +225,6 @@ const {purposes: {AssertionProofPurpose}} = jsigs;
 
 // create suite
 const suite = new DataIntegrityProof({
-  signer: keyPair.signer(),
   cryptosuite: createVerifyCryptosuite()
 });
 
@@ -400,7 +398,6 @@ const {purposes: {AssertionProofPurpose}} = jsigs;
 
 // create suite
 const suite = new DataIntegrityProof({
-  signer: keyPair.signer(),
   // disclose only the `credentialSubject.id` and any IDs and types in its
   // JSON path
   cryptosuite: createDiscloseCryptosuite(/* nothing selectively disclosed */)
@@ -477,7 +474,6 @@ const {purposes: {AssertionProofPurpose}} = jsigs;
 
 // create suite
 const suite = new DataIntegrityProof({
-  signer: keyPair.signer(),
   // disclose only the `credentialSubject.id` and any IDs and types in its
   // JSON path
   cryptosuite: createDiscloseCryptosuite({
