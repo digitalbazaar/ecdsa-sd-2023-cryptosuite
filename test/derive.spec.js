@@ -7,7 +7,8 @@ import {
   alumniCredential,
   dlCredential,
   dlCredentialNoIds,
-  ecdsaMultikeyKeyPair
+  ecdsaMultikeyKeyPair,
+  sailingCredential
 } from './mock-data.js';
 import {DataIntegrityProof} from '@digitalbazaar/data-integrity';
 import {expect} from 'chai';
@@ -95,6 +96,24 @@ describe('derive()', () => {
     });
 
     signedDlCredentialNoIdsMandatory = await jsigs.sign(unsignedCredential, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+  });
+
+  let signedSailingCredential;
+  before(async () => {
+    const cryptosuite = createSignCryptosuite();
+    const unsignedCredential = klona(sailingCredential);
+
+    const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+    const date = '2023-03-01T21:29:24Z';
+    const suite = new DataIntegrityProof({
+      signer: keyPair.signer(), date, cryptosuite
+    });
+
+    signedSailingCredential = await jsigs.sign(unsignedCredential, {
       suite,
       purpose: new AssertionProofPurpose(),
       documentLoader
@@ -347,6 +366,181 @@ describe('derive()', () => {
     expect(revealed.proof['@context']).to.not.exist;
     revealed.proof.should.not.deep.equal(
       signedDlCredentialNoIdsMandatory.proof);
+    // FIXME: parse `revealed.proof.proofValue` and assert signature count
+  });
+
+  it('should derive a reveal document with full arrays', async () => {
+    const cryptosuite = createDiscloseCryptosuite({
+      selectivePointers: [
+        '/credentialSubject/achievements/0/sailNumber',
+        '/credentialSubject/achievements/0/sails/0',
+        '/credentialSubject/achievements/0/sails/1',
+        '/credentialSubject/achievements/0/sails/2',
+        '/credentialSubject/achievements/0/sails/3',
+        '/credentialSubject/achievements/0/boards/0',
+        '/credentialSubject/achievements/0/boards/1',
+        '/credentialSubject/achievements/1/sailNumber',
+        '/credentialSubject/achievements/1/sails/0',
+        '/credentialSubject/achievements/1/sails/1',
+        '/credentialSubject/achievements/1/sails/2',
+        '/credentialSubject/achievements/1/sails/3',
+        '/credentialSubject/achievements/1/boards/0',
+        '/credentialSubject/achievements/1/boards/1'
+      ]
+    });
+    const suite = new DataIntegrityProof({cryptosuite});
+
+    let error;
+    let revealed;
+    try {
+      revealed = await jsigs.derive(signedSailingCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    } catch(e) {
+      error = e;
+    }
+
+    expect(error).to.not.exist;
+
+    const [achievement0, achievement1] =
+      signedSailingCredential.credentialSubject.achievements;
+
+    const expected = {
+      '@context': signedSailingCredential['@context'],
+      type: signedSailingCredential.type,
+      credentialSubject: {
+        achievements: [achievement0, achievement1]
+      }
+    };
+    revealed['@context'].should.deep.equal(expected['@context']);
+    expect(revealed.id).to.not.exist;
+    revealed.type.should.deep.equal(expected.type);
+    revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
+    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
+    // FIXME: parse `revealed.proof.proofValue` and assert signature count
+  });
+
+  it('should derive a reveal document with selective arrays', async () => {
+    const cryptosuite = createDiscloseCryptosuite({
+      selectivePointers: [
+        '/credentialSubject/achievements/0/sails/1',
+        '/credentialSubject/achievements/0/sails/3',
+        '/credentialSubject/achievements/0/boards/0',
+        '/credentialSubject/achievements/0/boards/1',
+        '/credentialSubject/achievements/1/sails/0',
+        '/credentialSubject/achievements/1/sails/2',
+        '/credentialSubject/achievements/1/boards/1'
+      ]
+    });
+    const suite = new DataIntegrityProof({cryptosuite});
+
+    let error;
+    let revealed;
+    try {
+      revealed = await jsigs.derive(signedSailingCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    } catch(e) {
+      error = e;
+    }
+
+    expect(error).to.not.exist;
+
+    const [achievement0, achievement1] =
+      signedSailingCredential.credentialSubject.achievements;
+
+    const expected = {
+      '@context': signedSailingCredential['@context'],
+      type: signedSailingCredential.type,
+      credentialSubject: {
+        achievements: [{
+          type: achievement0.type,
+          sails: [
+            achievement0.sails[1],
+            achievement0.sails[3]
+          ],
+          boards: [
+            achievement0.boards[0],
+            achievement0.boards[1]
+          ]
+        }, {
+          type: achievement1.type,
+          sails: [
+            achievement1.sails[0],
+            achievement1.sails[2]
+          ],
+          boards: [
+            achievement1.boards[1]
+          ]
+        }]
+      }
+    };
+    revealed['@context'].should.deep.equal(expected['@context']);
+    expect(revealed.id).to.not.exist;
+    revealed.type.should.deep.equal(expected.type);
+    revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
+    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
+    // FIXME: parse `revealed.proof.proofValue` and assert signature count
+  });
+
+  it('should derive a reveal document w/o first array element', async () => {
+    const cryptosuite = createDiscloseCryptosuite({
+      selectivePointers: [
+        '/credentialSubject/achievements/1/sails/0',
+        '/credentialSubject/achievements/1/sails/2',
+        '/credentialSubject/achievements/1/boards/1'
+      ]
+    });
+    const suite = new DataIntegrityProof({cryptosuite});
+
+    let error;
+    let revealed;
+    try {
+      revealed = await jsigs.derive(signedSailingCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+    } catch(e) {
+      error = e;
+    }
+
+    expect(error).to.not.exist;
+
+    const [, achievement1] =
+      signedSailingCredential.credentialSubject.achievements;
+
+    const expected = {
+      '@context': signedSailingCredential['@context'],
+      type: signedSailingCredential.type,
+      credentialSubject: {
+        achievements: [{
+          type: achievement1.type,
+          sails: [
+            achievement1.sails[0],
+            achievement1.sails[2]
+          ],
+          boards: [
+            achievement1.boards[1]
+          ]
+        }]
+      }
+    };
+    revealed['@context'].should.deep.equal(expected['@context']);
+    expect(revealed.id).to.not.exist;
+    revealed.type.should.deep.equal(expected.type);
+    revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
+    expect(revealed.proof).to.exist;
+    expect(revealed.proof['@context']).to.not.exist;
+    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
   });
 });
