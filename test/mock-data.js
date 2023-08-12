@@ -161,6 +161,95 @@ export const employeeCredential = {
   }
 };
 
+export const sailingCredential = {
+  '@context': [
+    'https://www.w3.org/ns/credentials/v2',
+    'https://www.w3.org/ns/credentials/examples/v2'
+  ],
+  type: ['VerifiableCredential', 'ExampleSailingCredential'],
+  issuer: 'did:example:c276e12ec21ebfeb1f712ebc6f1',
+  validFrom: '2023-06-01T09:25:48Z',
+  validUntil: '2024-06-01T09:25:48Z',
+  credentialSubject: {
+    name: 'Jane Doe',
+    achievements: [{
+      type: 'WindsailingAchievement',
+      sailNumber: 'Earth101',
+      sails: [
+        {
+          size: 5.5,
+          sailName: 'Osprey',
+          year: 2023
+        },
+        {
+          size: 6.1,
+          sailName: 'Eagle-FR',
+          year: 2023
+        },
+        {
+          size: 7.0,
+          sailName: 'Eagle-FR',
+          year: 2020
+        },
+        {
+          size: 7.8,
+          sailName: 'Eagle-FR',
+          year: 2023
+        }
+      ],
+      boards: [
+        {
+          boardName: 'CompFoil170',
+          brand: 'Tillo',
+          year: 2022
+        },
+        {
+          boardName: 'Tillo Custom',
+          brand: 'Tillo',
+          year: 2019
+        }
+      ]
+    }, {
+      type: 'WindsailingAchievement',
+      sailNumber: 'Mars101',
+      sails: [
+        {
+          size: 5.9,
+          sailName: 'Chicken',
+          year: 2022
+        },
+        {
+          size: 4.9,
+          sailName: 'Vulture-FR',
+          year: 2023
+        },
+        {
+          size: 6.8,
+          sailName: 'Vulture-FR',
+          year: 2020
+        },
+        {
+          size: 7.7,
+          sailName: 'Vulture-FR',
+          year: 2023
+        }
+      ],
+      boards: [
+        {
+          boardName: 'Oak620',
+          brand: 'Excite',
+          year: 2020
+        },
+        {
+          boardName: 'Excite Custom',
+          brand: 'Excite',
+          year: 2018
+        }
+      ]
+    }]
+  }
+};
+
 // example HMAC key to use for test vectors
 export const hmacKey = new Uint8Array(32);
 // set bookends to 1 to make the key easy to spot in test data
