@@ -4,6 +4,7 @@
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
 import {
+  achievementCredential,
   alumniCredential,
   dlCredential,
   dlCredentialNoIds,
@@ -611,5 +612,132 @@ describe('verify()', () => {
         expect(error.message).to.not.include('Signature count');
         expect(error.message).to.include('Invalid signature');
       });
+  });
+
+  describe('selective arrays', () => {
+    let signedAchievementCredential;
+    let revealedAchievementCredential1;
+    let revealedAchievementCredential2;
+    let revealedAchievementCredential3;
+    before(async () => {
+      const cryptosuite = createSignCryptosuite();
+      const unsignedCredential = klona(achievementCredential);
+
+      const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
+      const date = '2023-03-01T21:29:24Z';
+      const suite = new DataIntegrityProof({
+        signer: keyPair.signer(), date, cryptosuite
+      });
+
+      signedAchievementCredential = await jsigs.sign(unsignedCredential, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      // select full arrays
+      {
+        const cryptosuite = createDiscloseCryptosuite({
+          selectivePointers: [
+            '/credentialSubject/achievements/0/sailNumber',
+            '/credentialSubject/achievements/0/sails/0',
+            '/credentialSubject/achievements/0/sails/1',
+            '/credentialSubject/achievements/0/sails/2',
+            '/credentialSubject/achievements/0/sails/3',
+            '/credentialSubject/achievements/0/boards/0',
+            '/credentialSubject/achievements/0/boards/1',
+            '/credentialSubject/achievements/1/sailNumber',
+            '/credentialSubject/achievements/1/sails/0',
+            '/credentialSubject/achievements/1/sails/1',
+            '/credentialSubject/achievements/1/sails/2',
+            '/credentialSubject/achievements/1/sails/3',
+            '/credentialSubject/achievements/1/boards/0',
+            '/credentialSubject/achievements/1/boards/1'
+          ]
+        });
+        const suite = new DataIntegrityProof({cryptosuite});
+        revealedAchievementCredential1 = await jsigs.derive(
+          signedAchievementCredential, {
+            suite,
+            purpose: new AssertionProofPurpose(),
+            documentLoader
+          });
+      }
+
+      // select less than full subarrays
+      {
+        const cryptosuite = createDiscloseCryptosuite({
+          selectivePointers: [
+            '/credentialSubject/achievements/0/sails/1',
+            '/credentialSubject/achievements/0/sails/3',
+            '/credentialSubject/achievements/0/boards/0',
+            '/credentialSubject/achievements/0/boards/1',
+            '/credentialSubject/achievements/1/sails/0',
+            '/credentialSubject/achievements/1/sails/2',
+            '/credentialSubject/achievements/1/boards/1'
+          ]
+        });
+        const suite = new DataIntegrityProof({cryptosuite});
+        revealedAchievementCredential2 = await jsigs.derive(
+          signedAchievementCredential, {
+            suite,
+            purpose: new AssertionProofPurpose(),
+            documentLoader
+          });
+      }
+
+      // select w/o first array element
+      {
+        const cryptosuite = createDiscloseCryptosuite({
+          selectivePointers: [
+            '/credentialSubject/achievements/1/sails/0',
+            '/credentialSubject/achievements/1/sails/2',
+            '/credentialSubject/achievements/1/boards/1'
+          ]
+        });
+        const suite = new DataIntegrityProof({cryptosuite});
+        revealedAchievementCredential3 = await jsigs.derive(
+          signedAchievementCredential, {
+            suite,
+            purpose: new AssertionProofPurpose(),
+            documentLoader
+          });
+      }
+    });
+
+    it('should verify with full array revealed properties', async () => {
+      const cryptosuite = createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const result = await jsigs.verify(revealedAchievementCredential1, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.true;
+    });
+
+    it('should verify with fewer array revealed properties', async () => {
+      const cryptosuite = createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const result = await jsigs.verify(revealedAchievementCredential2, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+
+      expect(result.verified).to.be.true;
+    });
+
+    it('should verify with w/o first element revealed properties', async () => {
+      const cryptosuite = createVerifyCryptosuite();
+      const suite = new DataIntegrityProof({cryptosuite});
+      const result = await jsigs.verify(revealedAchievementCredential3, {
+        suite,
+        purpose: new AssertionProofPurpose(),
+        documentLoader
+      });
+      expect(result.verified).to.be.true;
+    });
   });
 });
