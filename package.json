@@ -14,7 +14,7 @@
     "lib/**/*.js"
   ],
   "dependencies": {
-    "@digitalbazaar/di-sd-primitives": "^2.0.1",
+    "@digitalbazaar/di-sd-primitives": "github:digitalbazaar/di-sd-primitives#skolemize-jsonld",
     "@digitalbazaar/ecdsa-multikey": "^1.1.3",
     "base58-universal": "^2.0.0",
     "base64url-universal": "^2.0.0",
