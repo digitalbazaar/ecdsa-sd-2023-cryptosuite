@@ -4,11 +4,11 @@
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
 import {
+  achievementCredential,
   alumniCredential,
   dlCredential,
   dlCredentialNoIds,
-  ecdsaMultikeyKeyPair,
-  sailingCredential
+  ecdsaMultikeyKeyPair
 } from './mock-data.js';
 import {DataIntegrityProof} from '@digitalbazaar/data-integrity';
 import {expect} from 'chai';
@@ -102,10 +102,10 @@ describe('derive()', () => {
     });
   });
 
-  let signedSailingCredential;
+  let signedAchievementCredential;
   before(async () => {
     const cryptosuite = createSignCryptosuite();
-    const unsignedCredential = klona(sailingCredential);
+    const unsignedCredential = klona(achievementCredential);
 
     const keyPair = await EcdsaMultikey.from({...ecdsaMultikeyKeyPair});
     const date = '2023-03-01T21:29:24Z';
@@ -113,7 +113,7 @@ describe('derive()', () => {
       signer: keyPair.signer(), date, cryptosuite
     });
 
-    signedSailingCredential = await jsigs.sign(unsignedCredential, {
+    signedAchievementCredential = await jsigs.sign(unsignedCredential, {
       suite,
       purpose: new AssertionProofPurpose(),
       documentLoader
@@ -393,7 +393,7 @@ describe('derive()', () => {
     let error;
     let revealed;
     try {
-      revealed = await jsigs.derive(signedSailingCredential, {
+      revealed = await jsigs.derive(signedAchievementCredential, {
         suite,
         purpose: new AssertionProofPurpose(),
         documentLoader
@@ -405,11 +405,11 @@ describe('derive()', () => {
     expect(error).to.not.exist;
 
     const [achievement0, achievement1] =
-      signedSailingCredential.credentialSubject.achievements;
+      signedAchievementCredential.credentialSubject.achievements;
 
     const expected = {
-      '@context': signedSailingCredential['@context'],
-      type: signedSailingCredential.type,
+      '@context': signedAchievementCredential['@context'],
+      type: signedAchievementCredential.type,
       credentialSubject: {
         achievements: [achievement0, achievement1]
       }
@@ -420,7 +420,7 @@ describe('derive()', () => {
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
     expect(revealed.proof).to.exist;
     expect(revealed.proof['@context']).to.not.exist;
-    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
+    revealed.proof.should.not.deep.equal(signedAchievementCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
   });
 
@@ -441,7 +441,7 @@ describe('derive()', () => {
     let error;
     let revealed;
     try {
-      revealed = await jsigs.derive(signedSailingCredential, {
+      revealed = await jsigs.derive(signedAchievementCredential, {
         suite,
         purpose: new AssertionProofPurpose(),
         documentLoader
@@ -453,11 +453,11 @@ describe('derive()', () => {
     expect(error).to.not.exist;
 
     const [achievement0, achievement1] =
-      signedSailingCredential.credentialSubject.achievements;
+      signedAchievementCredential.credentialSubject.achievements;
 
     const expected = {
-      '@context': signedSailingCredential['@context'],
-      type: signedSailingCredential.type,
+      '@context': signedAchievementCredential['@context'],
+      type: signedAchievementCredential.type,
       credentialSubject: {
         achievements: [{
           type: achievement0.type,
@@ -487,7 +487,7 @@ describe('derive()', () => {
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
     expect(revealed.proof).to.exist;
     expect(revealed.proof['@context']).to.not.exist;
-    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
+    revealed.proof.should.not.deep.equal(signedAchievementCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
   });
 
@@ -504,7 +504,7 @@ describe('derive()', () => {
     let error;
     let revealed;
     try {
-      revealed = await jsigs.derive(signedSailingCredential, {
+      revealed = await jsigs.derive(signedAchievementCredential, {
         suite,
         purpose: new AssertionProofPurpose(),
         documentLoader
@@ -516,11 +516,11 @@ describe('derive()', () => {
     expect(error).to.not.exist;
 
     const [, achievement1] =
-      signedSailingCredential.credentialSubject.achievements;
+      signedAchievementCredential.credentialSubject.achievements;
 
     const expected = {
-      '@context': signedSailingCredential['@context'],
-      type: signedSailingCredential.type,
+      '@context': signedAchievementCredential['@context'],
+      type: signedAchievementCredential.type,
       credentialSubject: {
         achievements: [{
           type: achievement1.type,
@@ -540,7 +540,7 @@ describe('derive()', () => {
     revealed.credentialSubject.should.deep.equal(expected.credentialSubject);
     expect(revealed.proof).to.exist;
     expect(revealed.proof['@context']).to.not.exist;
-    revealed.proof.should.not.deep.equal(signedSailingCredential.proof);
+    revealed.proof.should.not.deep.equal(signedAchievementCredential.proof);
     // FIXME: parse `revealed.proof.proofValue` and assert signature count
   });
 });

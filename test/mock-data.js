@@ -161,12 +161,12 @@ export const employeeCredential = {
   }
 };
 
-export const sailingCredential = {
+export const achievementCredential = {
   '@context': [
     'https://www.w3.org/ns/credentials/v2',
     'https://www.w3.org/ns/credentials/examples/v2'
   ],
-  type: ['VerifiableCredential', 'ExampleSailingCredential'],
+  type: ['VerifiableCredential', 'ExampleAchievementCredential'],
   issuer: 'did:example:c276e12ec21ebfeb1f712ebc6f1',
   validFrom: '2023-06-01T09:25:48Z',
   validUntil: '2024-06-01T09:25:48Z',
