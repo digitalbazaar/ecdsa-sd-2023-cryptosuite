@@ -6,6 +6,8 @@
 - Use `@digitalbazaar/di-sd-primitives@3`. Existing use cases that worked
   before should continue to work, but the new primitives support more
   use cases, such as better selection of items within arrays.
+- Removed now unnecessary special treatment of VCs with `credentialSubject`
+  that is not an object.
 
 ## 1.0.2 - 2023-05-21
 
