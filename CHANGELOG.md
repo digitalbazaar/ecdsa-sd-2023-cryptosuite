@@ -1,8 +1,9 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 1.1.0 - 2023-08-dd
+## 2.0.0 - 2023-08-dd
 
 ### Changed
+- **BREAKING**: Require node 18+.
 - Use `@digitalbazaar/di-sd-primitives@3`. Existing use cases that worked
   before should continue to work, but the new primitives support more
   use cases, such as better selection of items within arrays.
