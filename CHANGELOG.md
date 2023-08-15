@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 2.0.0 - 2023-08-dd
+## 2.0.0 - 2023-08-15
 
 ### Changed
 - **BREAKING**: Require node 18+.
