@@ -1,6 +1,6 @@
 {
   "name": "@digitalbazaar/ecdsa-sd-2023-cryptosuite",
-  "version": "2.0.1-0",
+  "version": "2.0.1",
   "description": "An ecdsa-sd-2023 Data Integrity cryptosuite for use with jsonld-signatures.",
   "homepage": "https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite",
   "repository": {
