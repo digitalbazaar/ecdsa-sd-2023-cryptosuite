@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 2.0.1 - 2023-08-dd
+## 2.0.1 - 2023-08-23
 
 ### Fixed
 - Fix key encoding bug.
