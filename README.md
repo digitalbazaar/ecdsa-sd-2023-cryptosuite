@@ -86,7 +86,7 @@ const unsignedCredential = {
       AlumniCredential: 'urn:example:AlumniCredential',
       alumniOf: 'https://schema.org#alumniOf'
     },
-    'https://w3id.org/security/data-integrity/v1'
+    'https://w3id.org/security/data-integrity/v2'
   ],
   id: 'urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0',
   type: ['VerifiableCredential', 'AlumniCredential'],
@@ -120,7 +120,7 @@ const signedCredential = await jsigs.sign(unsignedCredential, {
       "AlumniCredential": "urn:example:AlumniCredential",
       "alumniOf": "https://schema.org#alumniOf"
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "id": "urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0",
   "type": [
@@ -186,7 +186,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
       "AlumniCredential": "urn:example:AlumniCredential",
       "alumniOf": "https://schema.org#alumniOf"
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "id": "urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0",
   "type": [
@@ -291,7 +291,7 @@ const unsignedCredential = {
         "@type": "@id"
       }
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "type": [
     "VerifiableCredential",
@@ -353,7 +353,7 @@ const signedCredential = await jsigs.sign(unsignedCredential, {
         "@type": "@id"
       }
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "type": [
     "VerifiableCredential",
@@ -434,7 +434,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
         "@type": "@id"
       }
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "type": [
     "VerifiableCredential",
@@ -514,7 +514,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
         "@type": "@id"
       }
     },
-    "https://w3id.org/security/data-integrity/v1"
+    "https://w3id.org/security/data-integrity/v2"
   ],
   "type": [
     "VerifiableCredential",

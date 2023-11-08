@@ -47,7 +47,7 @@ export const alumniCredential = {
       AlumniCredential: 'urn:example:AlumniCredential',
       alumniOf: 'https://schema.org#alumniOf'
     },
-    'https://w3id.org/security/data-integrity/v1'
+    'https://w3id.org/security/data-integrity/v2'
   ],
   id: 'urn:uuid:98c5cffc-efa2-43e3-99f5-01e8ef404be0',
   type: ['VerifiableCredential', 'AlumniCredential'],
@@ -82,7 +82,7 @@ export const dlCredential = {
         '@type': '@id'
       }
     },
-    'https://w3id.org/security/data-integrity/v1'
+    'https://w3id.org/security/data-integrity/v2'
   ],
   id: 'urn:uuid:36245ee9-9074-4b05-a777-febff2e69757',
   type: ['VerifiableCredential', 'DriverLicenseCredential'],
@@ -123,7 +123,7 @@ export const dlCredentialNoIds = {
         '@type': '@id'
       }
     },
-    'https://w3id.org/security/data-integrity/v1'
+    'https://w3id.org/security/data-integrity/v2'
   ],
   type: ['VerifiableCredential', 'DriverLicenseCredential'],
   issuer: controller,
