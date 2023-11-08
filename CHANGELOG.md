@@ -1,5 +1,12 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 2.1.0 - 2023-11-TBD
+
+### Changed
+- Update test mock data to use `data-integrity` v2 context.
+- Use `@digitalbazaar/data-integrity@2.0` and
+  `@digitalbazaar/data-integrity-context@2.0` in test.
+
 ## 2.0.1 - 2023-08-23
 
 ### Fixed
