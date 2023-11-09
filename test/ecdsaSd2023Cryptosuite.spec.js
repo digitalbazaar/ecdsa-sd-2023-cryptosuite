@@ -27,7 +27,7 @@ describe('ecdsa-sd-2023 cryptosuite', () => {
       const cryptosuite = await createSignCryptosuite();
       should.exist(cryptosuite);
       cryptosuite.name.should.equal('ecdsa-sd-2023');
-      cryptosuite.requiredAlgorithm.should.equal('P-256');
+      cryptosuite.requiredAlgorithm.should.eql(['P-256', 'P-384']);
       cryptosuite.createVerifier.should.be.a('function');
       cryptosuite.createVerifyData.should.be.a('function');
       cryptosuite.createProofValue.should.be.a('function');
@@ -40,7 +40,7 @@ describe('ecdsa-sd-2023 cryptosuite', () => {
       const cryptosuite = await createDiscloseCryptosuite();
       should.exist(cryptosuite);
       cryptosuite.name.should.equal('ecdsa-sd-2023');
-      cryptosuite.requiredAlgorithm.should.equal('P-256');
+      cryptosuite.requiredAlgorithm.should.eql(['P-256', 'P-384']);
       cryptosuite.createVerifier.should.be.a('function');
       cryptosuite.createVerifyData.should.be.a('function');
       cryptosuite.createProofValue.should.be.a('function');
@@ -54,7 +54,7 @@ describe('ecdsa-sd-2023 cryptosuite', () => {
       const cryptosuite = await createVerifyCryptosuite();
       should.exist(cryptosuite);
       cryptosuite.name.should.equal('ecdsa-sd-2023');
-      cryptosuite.requiredAlgorithm.should.equal('P-256');
+      cryptosuite.requiredAlgorithm.should.eql(['P-256', 'P-384']);
       cryptosuite.createVerifier.should.be.a('function');
       cryptosuite.createVerifyData.should.be.a('function');
     });

@@ -142,8 +142,8 @@ describe('sign()', () => {
     }
 
     const errorMessage = `The signer's algorithm "${signer.algorithm}" ` +
-      `does not match the required algorithm for the cryptosuite ` +
-      `"${cryptosuite.requiredAlgorithm}".`;
+      `is not a supported algorithm for the cryptosuite. The supported ` +
+      `algorithms are: "${cryptosuite.requiredAlgorithm.join(', ')}".`;
 
     expect(error).to.exist;
     expect(error.message).to.equal(errorMessage);
