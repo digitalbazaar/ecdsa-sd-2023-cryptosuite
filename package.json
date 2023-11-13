@@ -22,8 +22,8 @@
     "klona": "^2.0.6"
   },
   "devDependencies": {
-    "@digitalbazaar/data-integrity": "digitalbazaar/data-integrity#update-context",
-    "@digitalbazaar/data-integrity-context": "digitalbazaar/data-integrity-context#drop-support-for-node-16",
+    "@digitalbazaar/data-integrity": "^2.0.0",
+    "@digitalbazaar/data-integrity-context": "^2.0.0",
     "@digitalbazaar/multikey-context": "^1.0.0",
     "@digitalbazaar/security-document-loader": "^2.0.0",
     "c8": "^7.13.0",
