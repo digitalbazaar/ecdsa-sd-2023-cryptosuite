@@ -30,7 +30,7 @@ TBD
 
 ## Install
 
-- Browsers and Node.js 16+ are supported.
+- Browsers and Node.js 18+ are supported.
 
 To install from NPM:
 
