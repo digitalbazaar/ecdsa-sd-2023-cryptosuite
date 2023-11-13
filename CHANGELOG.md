@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 3.0.1 - 2023-11-dd
+## 3.0.1 - 2023-11-13
 
 ### Fixed
 - Fix bug where a single matching proof would be rejected
