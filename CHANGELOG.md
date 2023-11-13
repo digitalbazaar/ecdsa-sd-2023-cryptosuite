@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 3.0.0 - 2023-11-dd
+## 3.0.0 - 2023-11-13
 
 ### Changed
 - **BREAKING**: Use `data-integrity` v2 context.
