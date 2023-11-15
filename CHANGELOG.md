@@ -1,5 +1,11 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.1.0 - 2023-11-dd
+
+### Changed
+- Update dependencies:
+  - Use `cborg@4`.
+
 ## 3.0.1 - 2023-11-13
 
 ### Fixed
