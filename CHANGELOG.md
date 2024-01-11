@@ -1,5 +1,10 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.1.1 - 2024-01-dd
+
+### Fixed
+- Fix typo in `mandatoryIndexes` validation error message.
+
 ## 3.1.0 - 2023-11-15
 
 ### Changed
