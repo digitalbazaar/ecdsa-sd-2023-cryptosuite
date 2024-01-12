@@ -1,5 +1,10 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.1.2 - 2024-01-dd
+
+### Fixed
+- Ensure promise is awaited when finding matching proof for disclosure.
+
 ## 3.1.1 - 2024-01-11
 
 ### Fixed
