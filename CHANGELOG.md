@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 3.2.0 - 2024-01-dd
+## 3.2.0 - 2024-01-17
 
 ### Added
 - Support proof encodings that use CBOR tag 64 for Uint8Array instead
