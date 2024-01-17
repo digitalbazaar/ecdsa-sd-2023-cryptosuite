@@ -32,14 +32,93 @@ loader.addStatic(
 // add VC 2.0 context
 loader.addStatic(
   'https://www.w3.org/ns/credentials/v2',
+  /* eslint-disable */
   {
-    /* eslint-disable */
     "@context": {
       "@protected": true,
       "@vocab": "https://www.w3.org/ns/credentials/issuer-dependent#",
 
       "id": "@id",
       "type": "@type",
+
+      "kid": {
+        "@id": "https://www.iana.org/assignments/jose#kid",
+        "@type": "@id"
+      },
+      "iss": {
+        "@id": "https://www.iana.org/assignments/jose#iss",
+        "@type": "@id"
+      },
+      "sub": {
+        "@id": "https://www.iana.org/assignments/jose#sub",
+        "@type": "@id"
+      },
+      "jku": {
+        "@id": "https://www.iana.org/assignments/jose#jku",
+        "@type": "@id"
+      },
+      "x5u": {
+        "@id": "https://www.iana.org/assignments/jose#x5u",
+        "@type": "@id"
+      },
+      "aud": {
+        "@id": "https://www.iana.org/assignments/jwt#aud",
+        "@type": "@id"
+      },
+      "exp": {
+        "@id": "https://www.iana.org/assignments/jwt#exp",
+        "@type": "https://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+      },
+      "nbf": {
+        "@id": "https://www.iana.org/assignments/jwt#nbf",
+        "@type": "https://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+      },
+      "iat": {
+        "@id": "https://www.iana.org/assignments/jwt#iat",
+        "@type": "https://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+      },
+      "cnf": {
+        "@id": "https://www.iana.org/assignments/jwt#cnf",
+        "@context": {
+          "@protected": true,
+          "kid": {
+            "@id": "https://www.iana.org/assignments/jwt#kid",
+            "@type": "@id"
+          },
+          "jwk": {
+            "@id": "https://www.iana.org/assignments/jwt#jwk",
+            "@type": "@json"
+          }
+        }
+      },
+      "_sd_alg": {
+        "@id": "https://www.iana.org/assignments/jwt#_sd_alg"
+      },
+      "_sd": {
+        "@id": "https://www.iana.org/assignments/jwt#_sd"
+      },
+      "...": {
+        "@id": "https://www.iana.org/assignments/jwt#..."
+      },
+
+      "digestSRI": {
+        "@id": "https://www.w3.org/2018/credentials#digestSRI",
+        "@type": "https://www.w3.org/2018/credentials#sriString"
+      },
+      "digestMultibase": {
+        "@id": "https://w3id.org/security#digestMultibase",
+        "@type": "https://w3id.org/security#multibase"
+      },
+
+      "mediaType": {
+        "@id": "https://schema.org/encodingFormat"
+      },
+
+      "description": "https://schema.org/description",
+      "name": "https://schema.org/name",
+
+      "EnvelopedVerifiableCredential":
+        "https://www.w3.org/2018/credentials#EnvelopedVerifiableCredential",
 
       "VerifiableCredential": {
         "@id": "https://www.w3.org/2018/credentials#VerifiableCredential",
@@ -61,9 +140,7 @@ loader.addStatic(
             "@id": "https://www.w3.org/2018/credentials#credentialSubject",
             "@type": "@id"
           },
-          "description": {
-            "@id": "https://schema.org/description"
-          },
+          "description": "https://schema.org/description",
           "evidence": {
             "@id": "https://www.w3.org/2018/credentials#evidence",
             "@type": "@id"
@@ -80,9 +157,7 @@ loader.addStatic(
             "@id": "https://www.w3.org/2018/credentials#issuer",
             "@type": "@id"
           },
-          "name": {
-            "@id": "https://schema.org/name"
-          },
+          "name": "https://schema.org/name",
           "proof": {
             "@id": "https://w3id.org/security#proof",
             "@type": "@id",
@@ -94,6 +169,14 @@ loader.addStatic(
           },
           "termsOfUse": {
             "@id": "https://www.w3.org/2018/credentials#termsOfUse",
+            "@type": "@id"
+          },
+          "confidenceMethod": {
+            "@id": "https://www.w3.org/2018/credentials#confidenceMethod",
+            "@type": "@id"
+          },
+          "relatedResource": {
+            "@id": "https://www.w3.org/2018/credentials#relatedResource",
             "@type": "@id"
           }
         }
@@ -118,10 +201,81 @@ loader.addStatic(
           "verifiableCredential": {
             "@id": "https://www.w3.org/2018/credentials#verifiableCredential",
             "@type": "@id",
-            "@container": "@graph"
+            "@container": "@graph",
+            "@context": null
           },
           "termsOfUse": {
             "@id": "https://www.w3.org/2018/credentials#termsOfUse",
+            "@type": "@id"
+          }
+        }
+      },
+
+      "JsonSchemaCredential": "https://w3.org/2018/credentials#JsonSchemaCredential",
+
+      "JsonSchema": {
+        "@id": "https://w3.org/2018/credentials#JsonSchema",
+        "@context": {
+          "@protected": true,
+
+          "id": "@id",
+          "type": "@type",
+
+          "jsonSchema": {
+              "@id": "https://w3.org/2018/credentials#jsonSchema",
+              "@type": "@json"
+          }
+        }
+      },
+
+      "BitstringStatusListCredential": "https://www.w3.org/ns/credentials/status#BitstringStatusListCredential",
+
+      "BitstringStatusList": {
+        "@id": "https://www.w3.org/ns/credentials/status#BitstringStatusList",
+        "@context": {
+          "@protected": true,
+
+          "id": "@id",
+          "type": "@type",
+
+          "statusPurpose":
+            "https://www.w3.org/ns/credentials/status#statusPurpose",
+          "encodedList":
+            "https://www.w3.org/ns/credentials/status#encodedList",
+          "ttl": "https://www.w3.org/ns/credentials/status#ttl",
+          "statusReference": "https://www.w3.org/ns/credentials/status#statusReference",
+          "statusSize": "https://www.w3.org/ns/credentials/status#statusSize",
+          "statusMessage": {
+            "@id": "https://www.w3.org/ns/credentials/status#statusMessage",
+            "@context": {
+              "@protected": true,
+
+              "id": "@id",
+              "type": "@type",
+
+              "status": "https://www.w3.org/ns/credentials/status#status",
+              "message": "https://www.w3.org/ns/credentials/status#message"
+            }
+          }
+        }
+      },
+
+      "BitstringStatusListEntry": {
+        "@id":
+          "https://www.w3.org/ns/credentials/status#BitstringStatusListEntry",
+        "@context": {
+          "@protected": true,
+
+          "id": "@id",
+          "type": "@type",
+
+          "statusPurpose":
+            "https://www.w3.org/ns/credentials/status#statusPurpose",
+          "statusListIndex":
+            "https://www.w3.org/ns/credentials/status#statusListIndex",
+          "statusListCredential": {
+            "@id":
+              "https://www.w3.org/ns/credentials/status#statusListCredential",
             "@type": "@id"
           }
         }
@@ -144,6 +298,10 @@ loader.addStatic(
             "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
           },
           "nonce": "https://w3id.org/security#nonce",
+          "previousProof": {
+            "@id": "https://w3id.org/security#previousProof",
+            "@type": "@id"
+          },
           "proofPurpose": {
             "@id": "https://w3id.org/security#proofPurpose",
             "@type": "@vocab",
@@ -178,7 +336,10 @@ loader.addStatic(
               }
             }
           },
-          "cryptosuite": "https://w3id.org/security#cryptosuite",
+          "cryptosuite": {
+            "@id": "https://w3id.org/security#cryptosuite",
+            "@type": "https://w3id.org/security#cryptosuiteString"
+          },
           "proofValue": {
             "@id": "https://w3id.org/security#proofValue",
             "@type": "https://w3id.org/security#multibase"
@@ -190,8 +351,9 @@ loader.addStatic(
         }
       }
     }
-    /* eslint-enable */
-  });
+  }
+  /* eslint-enable */
+);
 
 // add VC 2.0 example context
 loader.addStatic(
