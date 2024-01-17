@@ -139,7 +139,7 @@ const signedCredential = await jsigs.sign(unsignedCredential, {
     "verificationMethod": "did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
     "cryptosuite": "ecdsa-sd-2023",
     "proofPurpose": "assertionMethod",
-    "proofValue": "u2V0AhVhAqz-LILPZ4pWPUmX2jIXYjN3dLa__MnpZdoD8IQnTvxmMdRDbuxikxWUps5E-8CUPFCSihO6x_dk4yzi-HiS5klgkge0P0BiCpXp6kzJnmPRLBS3k1BB-oVYj2S562LN_AswPpQvhWCBuZnZU1hPXWJuXFJAv3clu-moPIMp--pY2RRtU49-OSYZYQNhwRJnnDTW7f-bd9kUpnMAqlovgiA2p4uCZOIG9L0hgEcIAqqcrPTIXoc0Qp0tLxpKKHAaWLqCSDpHjpvnz0GRYQMGw0vJGj78dv2WQFm2IoiFXdiUFTJSIAA5GB78gWApCJZdU7XIivjUWEirH8lMeLPiJzU7BK1sdP7Se6CgK-1RYQLEKXGZT2MqYP5-mJ57arq1bMD92BKQVnMqSsvFyCj01Gx-47lTUyiceDx4GAWcz25LIFiGas4lYpKUcF3Sx9cBYQD6_N62_l2nipZlFv1E209GnPOElSdyD2L_MUybwzdY0KcDEKyPGRZ7ZhOozsDdG9x4bS2oI2SocZpnB6vvkD1xYQAfUdJlmwvGWAUd3SsJkd9aMcaJHil8flM075dZ310AC6wliQAbwTJvkkepBdAA4tu-_zb2O1ApdpOrnL7sMM7ZYQO-1-cHklA_TR6Rqq5uvYYzIM3P1hizmjH-FzdV0OGV8oV2CLWpFd8lhFBHUlPkhJ9uYlGF2KN0J3WdbGkPI97SA"
+    "proofValue": "u2V0AhVhAJYHycsGSXfAeu3B79v_7bGXgV7PGt-g5THJoy5ozUnSLiEtlaQUJH8y-m7fA6SbAfsi_ib9dIlp5meEU0lVNElgjgCQCvZIjy3-f0ZY65-E4KboVApo9GhAN9qWKIR0ZIcaVE6BYIEVu230y2U_H_ibRuEk_5Z7jg5VTlhLqNF_m4T5T-LOChlhA8QcdE2gs6-4J-uLtL1-P1lbGwJISWk7oIXMTmTK72rtrOsXdaQeTkyN0CX-3sBhsciroYjbqpQcg8qAI4I2xxFhAPJE7FkZFOn8jMTGFhyAdLcK0T1jpzpIpSNhLmTIzZKhsYdpyijHsPMjM-CwpWuuHJbowZreNj7Xy-C_vHuMRQVhA87tpC5YTvVMx7epTcLKuVvOjVCYtDa95PApP7bg9NgIzycAUuJLTS2EZq1J19mji_G60IE-QiRzahEI4dy6ahVhA_BaNcvBqBQZ-pyCvfGuNkLwREHAYJpkZns5UyI_gZCynLxnoYfcvv9v5sWPghl-eJPhkKxlplDJmO93x3kbKplhAaIUQsz8V_t2r8VmawrAGEUgmEqEiecJ45HNuYJrWiBf0oE_vdiJOA9YP-l3FBeiGfCK10el6ugLkA9GiLCIfxVhAh-a-wrL7Z8mEVrfT_AHDuNnOAa2nwzWWFNwDEIkNum03LhRa3H0fUpFEZcP7MhdWgR4cxT0M-yhJUW5Nf03mW4A"
   }
 }
 ```
@@ -194,7 +194,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
     "AlumniCredential"
   ],
   "credentialSubject": {
-    "id": "urn:uuid:d58b2365-0951-4373-96c8-e886d61829f2",
+    "id": "urn:uuid:d58b2365-0951-4373-96c8-e886d61829f2"
     // notably, `alumniOf` is not present
   },
   "proof": {
@@ -203,7 +203,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
     "verificationMethod": "did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
     "cryptosuite": "ecdsa-sd-2023",
     "proofPurpose": "assertionMethod",
-    "proofValue": "u2V0BhVhAqz-LILPZ4pWPUmX2jIXYjN3dLa__MnpZdoD8IQnTvxmMdRDbuxikxWUps5E-8CUPFCSihO6x_dk4yzi-HiS5klgkge0P0BiCpXp6kzJnmPRLBS3k1BB-oVYj2S562LN_AswPpQvhg1hA2HBEmecNNbt_5t32RSmcwCqWi-CIDani4Jk4gb0vSGARwgCqpys9MhehzRCnS0vGkoocBpYuoJIOkeOm-fPQZFhAwbDS8kaPvx2_ZZAWbYiiIVd2JQVMlIgADkYHvyBYCkIll1TtciK-NRYSKsfyUx4s-InNTsErWx0_tJ7oKAr7VFhAsQpcZlPYypg_n6YnntqurVswP3YEpBWcypKy8XIKPTUbH7juVNTKJx4PHgYBZzPbksgWIZqziVikpRwXdLH1wKCA"
+    "proofValue": "u2V0BhVhAJYHycsGSXfAeu3B79v_7bGXgV7PGt-g5THJoy5ozUnSLiEtlaQUJH8y-m7fA6SbAfsi_ib9dIlp5meEU0lVNElgjgCQCvZIjy3-f0ZY65-E4KboVApo9GhAN9qWKIR0ZIcaVE6CDWEDxBx0TaCzr7gn64u0vX4_WVsbAkhJaTughcxOZMrvau2s6xd1pB5OTI3QJf7ewGGxyKuhiNuqlByDyoAjgjbHEWEA8kTsWRkU6fyMxMYWHIB0twrRPWOnOkilI2EuZMjNkqGxh2nKKMew8yMz4LCla64clujBmt42PtfL4L-8e4xFBWEDzu2kLlhO9UzHt6lNwsq5W86NUJi0Nr3k8Ck_tuD02AjPJwBS4ktNLYRmrUnX2aOL8brQgT5CJHNqEQjh3LpqFoIA"
   }
 }
 ```
@@ -376,7 +376,7 @@ const signedCredential = await jsigs.sign(unsignedCredential, {
     "verificationMethod": "did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
     "cryptosuite": "ecdsa-sd-2023",
     "proofPurpose": "assertionMethod",
-    "proofValue": "u2V0AhVhAnRWNgVdaJEUQrtuhcS10sZc5f6oPaQ2w6aUgEOp-YIc4f2RtVvFslS4-aeUPymYJsrsZ-5QTyQi8s82n-Vp781gkge0Pz7jJFVkZ_be-WpYHltgk9kOFMuZttvc6zZKvPSvQxeQ8WCB1n_8RGL7vlOFgRh0Ro58T6qx74L1PNd8zO9XuSar8UoVYQO22TaYJ9dg05NDAY3fh629tygirL3EsrS3PU_nw--4iIyqO0YD8OOQvmmDQTzge9EbwiBWwPpZRhOZBGivyx5tYQN1awVw8JeZHmtmKw3nnLYKPPjRRLFkVUo8BvjxlesDFJLhhtfkVK_6ESihW5roMsqAl_3MyiBiJ5rA9kJDip7xYQA7qRBPr_fDluvj5qopjyAUzvrOkpIF-b-fe4pcGT1EjRDvHv_i7E4CPvG-2LeiWXizJfiQnZEY_Kg8n2sLxsDtYQLPUbC3C21UgAaHYPPXETEurl1afRXrCLSRlxnhHgFpUKvjtVCc-8giG2QrEhSEOpi-GLo9SVaujclSJIwqk5IJYQJXaeBoqKqFWsohuLCareDJ_s1zcz9twspRE4OaK-B1Gu2Y-x7shsmO57Wj8BhgKwkDNN0B9NggbqwPmTqu-NO2BeDEvY3JlZGVudGlhbFN1YmplY3QvZHJpdmVyTGljZW5zZS9pc3N1aW5nQXV0aG9yaXR5"
+    "proofValue": "u2V0AhVhAyM2mwjJlTYkC2QZgunbbnJlRP2coA8DJXHlrm9hzud-3bvwuMVjdhrVK3hydgvr8nze_di7QfIhZGDOt6_Tq6VgjgCQCq8WlSUFA784Z-aFwkE8lM-Z0e5k4noED75rKV9nyEyVYIK13wQfUQGW7f5XNOIVHcKi0O3TkM2McH4T8IdcJ30zIhVhAJEA2_9chguC4iMvtMSG99PvRsY37BcrWih1tHNT-4imz4fmxwxohMzx0xvH8CawiJ9E1slwszhi43VmfPgwmgVhAFEV21IU4BslgrGBAf-0HcBwGRPN38yRZ8e7G-GF8oXBUGtl5Sot9mTX3Ee6hSektBkpop5ozbbic8j4IYiA13lhAPzDD6Gp8LgaJL5b3ne26jFBOAbklJ6Zo_b3dj6FBYpV3vlb64rvATGdjYaaKyTCW9NcazpjninLckVZ9CKB3PlhAGcYAEAZUUmHbEoq0-mpbFn24qHuVkmlhQUyhIP2TNd2Tl-tsFqOhoitK6TjOUT3Bj1qLw-x8RWMi8lLoppc4_lhA7hMMIfnKM4CajB5lkM8f_b0OdFF_ZSLaJJcujlNzAHVTiOSKSvswYKzKDk0ZdHUeej3KgfJ7QmB-fDI9PkCkx4F4MS9jcmVkZW50aWFsU3ViamVjdC9kcml2ZXJMaWNlbnNlL2lzc3VpbmdBdXRob3JpdHk"
   }
 }
 ```
@@ -452,7 +452,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
     "verificationMethod": "did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
     "cryptosuite": "ecdsa-sd-2023",
     "proofPurpose": "assertionMethod",
-    "proofValue": "u2V0BhVhAnRWNgVdaJEUQrtuhcS10sZc5f6oPaQ2w6aUgEOp-YIc4f2RtVvFslS4-aeUPymYJsrsZ-5QTyQi8s82n-Vp781gkge0Pz7jJFVkZ_be-WpYHltgk9kOFMuZttvc6zZKvPSvQxeQ8gKNlYzE0bjB4LHVFV2pTY2NxcG02d0VWZktnWXVxeWNUM2s1ZVJ5Y0NkclpaNkdQNDR4MDZvZWMxNG4xeCx1WE90Y19OQjYweG9rbTFFZS1KeW9SSWhFVENlRlFQOVN2cGVPaVBuVnNmZ2VjMTRuMngsdU9zWGZlSFpFYkVGSEk4aTBHd2ptMDBxVnNadWQ4Yms0SUNEeFB5RGVwLWOGAAECAwQF"
+    "proofValue": "u2V0BhVhAyM2mwjJlTYkC2QZgunbbnJlRP2coA8DJXHlrm9hzud-3bvwuMVjdhrVK3hydgvr8nze_di7QfIhZGDOt6_Tq6VgjgCQCq8WlSUFA784Z-aFwkE8lM-Z0e5k4noED75rKV9nyEyWAowBYIEzd7S14pdeAy8d6-JBVTp0n-mBfmbUarg6kMqld__3EAVggqp46s-1-ncOZRvtre3UOk2THbeYHrLLdlVWrGAzBy9ICWCCdItOD0ZvYLgDNfJyYSFlnqpVtPURbhECsquANRIU5r4YAAQIDBAU"
   }
 }
 ```
@@ -523,8 +523,8 @@ const derivedCredential = await jsigs.derive(signedCredential, {
   "credentialSubject": {
     "driverLicense": {
       "type": "DriverLicense",
-      "dateOfBirth": "01-01-1990",
-      "issuingAuthority": "VA"
+      "issuingAuthority": "VA",
+      "dateOfBirth": "01-01-1990"
     }
   },
   "proof": {
@@ -533,7 +533,7 @@ const derivedCredential = await jsigs.derive(signedCredential, {
     "verificationMethod": "did:key:zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9#zDnaekGZTbQBerwcehBSXLqAg6s55hVEBms1zFy89VHXtJSa9",
     "cryptosuite": "ecdsa-sd-2023",
     "proofPurpose": "assertionMethod",
-    "proofValue": "u2V0BhVhAnRWNgVdaJEUQrtuhcS10sZc5f6oPaQ2w6aUgEOp-YIc4f2RtVvFslS4-aeUPymYJsrsZ-5QTyQi8s82n-Vp781gkge0Pz7jJFVkZ_be-WpYHltgk9kOFMuZttvc6zZKvPSvQxeQ8gVhA7bZNpgn12DTk0MBjd-Hrb23KCKsvcSytLc9T-fD77iIjKo7RgPw45C-aYNBPOB70RvCIFbA-llGE5kEaK_LHm6NlYzE0bjB4LHVYT3RjX05CNjB4b2ttMUVlLUp5b1JJaEVUQ2VGUVA5U3ZwZU9pUG5Wc2ZnZWMxNG4xeCx1T3NYZmVIWkViRUZISThpMEd3am0wMHFWc1p1ZDhiazRJQ0R4UHlEZXAtY2VjMTRuMngsdUVXalNjY3FwbTZ3RVZmS2dZdXF5Y1QzazVlUnljQ2RyWlo2R1A0NHgwNm-GAAIDBAUG"
+    "proofValue": "u2V0BhVhAyM2mwjJlTYkC2QZgunbbnJlRP2coA8DJXHlrm9hzud-3bvwuMVjdhrVK3hydgvr8nze_di7QfIhZGDOt6_Tq6VgjgCQCq8WlSUFA784Z-aFwkE8lM-Z0e5k4noED75rKV9nyEyWBWEAkQDb_1yGC4LiIy-0xIb30-9GxjfsFytaKHW0c1P7iKbPh-bHDGiEzPHTG8fwJrCIn0TWyXCzOGLjdWZ8-DCaBowBYIKqeOrPtfp3DmUb7a3t1DpNkx23mB6yy3ZVVqxgMwcvSAVggnSLTg9Gb2C4AzXycmEhZZ6qVbT1EW4RArKrgDUSFOa8CWCBM3e0teKXXgMvHeviQVU6dJ_pgX5m1Gq4OpDKpXf_9xIYAAgMEBQY"
   }
 }
 ```
