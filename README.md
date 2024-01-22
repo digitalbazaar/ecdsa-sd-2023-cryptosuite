@@ -101,7 +101,13 @@ const unsignedCredential = {
 // create suite
 const suite = new DataIntegrityProof({
   signer: keyPair.signer(),
-  cryptosuite: createSignCryptosuite()
+  cryptosuite: createSignCryptosuite(/*{
+    // optionally set any mandatory-to-reveal statements
+    mandatoryPointers: [
+      '/issuer',
+      '/issuanceDate'
+    ]
+  }*/)
 });
 
 // create signed credential
