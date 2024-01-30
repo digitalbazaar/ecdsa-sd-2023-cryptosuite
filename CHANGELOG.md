@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 3.2.1 - 2024-01-dd
+## 3.2.1 - 2024-01-30
 
 ### Fixed
 - Encode `Map` objects in CBOR using the Map tag, not the object tag.
