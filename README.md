@@ -1,6 +1,6 @@
 # An ECDSA Selective Disclosure Data Integrity Cryptosuite _(@digitalbazaar/ecdsa-sd-2023-cryptosuite)_
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/ecdsa-sd-2023-cryptosuite/main.yml)](https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite/actions/workflow/main.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/digitalbazaar/ecdsa-sd-2023-cryptosuite/main.yml)](https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite/actions/workflows/main.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/digitalbazaar/ecdsa-sd-2023-cryptosuite)](https://codecov.io/gh/digitalbazaar/ecdsa-sd-2023-cryptosuite)
 [![NPM Version](https://img.shields.io/npm/v/@digitalbazaar/ecdsa-sd-2023-cryptosuite.svg)](https://npm.im/@digitalbazaar/ecdsa-sd-2023-cryptosuite)
 
