@@ -23,6 +23,7 @@ For use with https://github.com/digitalbazaar/jsonld-signatures v11.2 and above.
 See also related specs:
 
 * [Verifiable Credential Data Integrity](https://w3c.github.io/vc-data-integrity/)
+* [Data Integrity ECDSA Cryptosuite](https://www.w3.org/TR/vc-di-ecdsa/)
 
 ## Security
 
@@ -34,13 +35,13 @@ TBD
 
 To install from NPM:
 
-```
+```sh
 npm install @digitalbazaar/ecdsa-sd-2023-cryptosuite
 ```
 
 To install locally (for development):
 
-```
+```sh
 git clone https://github.com/digitalbazaar/ecdsa-sd-2023-cryptosuite.git
 cd ecdsa-sd-2023-cryptosuite
 npm install
