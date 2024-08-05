@@ -136,7 +136,6 @@ describe('verify()', () => {
         });
 
         const {errors} = result.error;
-
         expect(result.verified).to.be.false;
         expect(errors[0].name).to.equal('TypeError');
         expect(errors[0].cause.message).to.include('Only base64url');
@@ -183,7 +182,7 @@ describe('verify()', () => {
         expect(errors[0].name).to.equal('NotFoundError');
       });
 
-    it('should fail verifying a base proof', async () => {
+    it('should verify a base proof', async () => {
       const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const result = await jsigs.verify(signedAlumniCredential, {
@@ -192,13 +191,7 @@ describe('verify()', () => {
         documentLoader
       });
 
-      expect(result.verified).to.be.false;
-      const {error} = result.results[0];
-
-      expect(result.verified).to.be.false;
-      expect(error.name).to.equal('TypeError');
-      expect(error.message).to.equal(
-        'The proof does not include a valid "proofValue" property.');
+      expect(result.verified).to.be.true;
     });
 
     it('should verify with only the credential subject ID', async () => {
