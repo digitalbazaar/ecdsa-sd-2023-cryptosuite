@@ -65,10 +65,22 @@ describe('verify VCDM 2.0 example VC', () => {
     }
   });
 
-  it('should verify', async () => {
+  it('should verify derived credential', async () => {
     const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedEmployeeCredential, {
+      suite,
+      purpose: new AssertionProofPurpose(),
+      documentLoader
+    });
+
+    expect(result.verified).to.be.true;
+  });
+
+  it('should verify non derived credential', async () => {
+    const cryptosuite = createVerifyCryptosuite();
+    const suite = new DataIntegrityProof({cryptosuite});
+    const result = await jsigs.verify(signedEmployeeCredential, {
       suite,
       purpose: new AssertionProofPurpose(),
       documentLoader
