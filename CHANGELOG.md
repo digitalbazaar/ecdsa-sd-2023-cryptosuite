@@ -1,5 +1,11 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.3.0 - 2024-08-dd
+
+### Added
+- Allow a different required algorithm (non-default) to be specified
+  when creating sign and verify suites.
+
 ## 3.2.1 - 2024-01-30
 
 ### Fixed
