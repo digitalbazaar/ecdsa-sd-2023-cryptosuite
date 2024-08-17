@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2023 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
@@ -138,7 +138,7 @@ describe('verify()', () => {
         const {errors} = result.error;
         expect(result.verified).to.be.false;
         expect(errors[0].name).to.equal('TypeError');
-        expect(errors[0].cause.message).to.include('Only base64url');
+        expect(errors[0].cause.message).to.include('only base64url');
       }
     );
 
@@ -157,7 +157,6 @@ describe('verify()', () => {
         });
 
         const {errors} = result.error;
-
         expect(result.verified).to.be.false;
         expect(errors[0].name).to.equal('NotFoundError');
       });
@@ -177,12 +176,11 @@ describe('verify()', () => {
         });
 
         const {errors} = result.error;
-
         expect(result.verified).to.be.false;
         expect(errors[0].name).to.equal('NotFoundError');
       });
 
-    it('should verify a base proof', async () => {
+    it('should fail verifying a base proof', async () => {
       const cryptosuite = createVerifyCryptosuite();
       const suite = new DataIntegrityProof({cryptosuite});
       const result = await jsigs.verify(signedAlumniCredential, {
@@ -191,7 +189,11 @@ describe('verify()', () => {
         documentLoader
       });
 
-      expect(result.verified).to.be.true;
+      expect(result.verified).to.be.false;
+      const {error} = result.results[0];
+      expect(error.name).to.equal('TypeError');
+      expect(error.message).to.equal(
+        'The proof does not include a valid "proofValue" property.');
     });
 
     it('should verify with only the credential subject ID', async () => {
