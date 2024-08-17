@@ -1,5 +1,10 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.4.0 - 2024-08-dd
+
+### Added
+- Add `createConfirmCryptosuite()` to enable confirming base proofs.
+
 ## 3.3.0 - 2024-08-17
 
 ### Added
