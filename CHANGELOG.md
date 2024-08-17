@@ -1,6 +1,6 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
-## 3.3.0 - 2024-08-dd
+## 3.3.0 - 2024-08-17
 
 ### Added
 - Allow a different required algorithm (non-default) to be specified
