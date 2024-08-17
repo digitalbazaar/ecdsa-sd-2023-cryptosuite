@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2023 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
@@ -7,6 +7,7 @@ import {ecdsaMultikeyKeyPair} from './mock-data.js';
 import {expect} from 'chai';
 
 const {
+  createConfirmCryptosuite,
   createDiscloseCryptosuite,
   createSignCryptosuite,
   createVerifyCryptosuite
@@ -16,9 +17,21 @@ describe('ecdsa-sd-2023 cryptosuite', () => {
   describe('exports', () => {
     it('should have proper exports', async () => {
       should.exist(ecdsaSd2023Cryptosuite);
+      ecdsaSd2023Cryptosuite.createConfirmCryptosuite.should.be.a('function');
       ecdsaSd2023Cryptosuite.createDiscloseCryptosuite.should.be.a('function');
       ecdsaSd2023Cryptosuite.createSignCryptosuite.should.be.a('function');
       ecdsaSd2023Cryptosuite.createVerifyCryptosuite.should.be.a('function');
+    });
+  });
+
+  describe('createConfirmCryptosuite', () => {
+    it('should have proper exports', async () => {
+      const cryptosuite = await createConfirmCryptosuite();
+      should.exist(cryptosuite);
+      cryptosuite.name.should.equal('ecdsa-sd-2023');
+      cryptosuite.requiredAlgorithm.should.equal('P-256');
+      cryptosuite.createVerifier.should.be.a('function');
+      cryptosuite.createVerifyData.should.be.a('function');
     });
   });
 

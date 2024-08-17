@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2023 Digital Bazaar, Inc. All rights reserved.
+ * Copyright (c) 2023-2024 Digital Bazaar, Inc. All rights reserved.
  */
 import * as EcdsaMultikey from '@digitalbazaar/ecdsa-multikey';
 import * as ecdsaSd2023Cryptosuite from '../lib/index.js';
@@ -65,22 +65,10 @@ describe('verify VCDM 2.0 example VC', () => {
     }
   });
 
-  it('should verify derived credential', async () => {
+  it('should verify', async () => {
     const cryptosuite = createVerifyCryptosuite();
     const suite = new DataIntegrityProof({cryptosuite});
     const result = await jsigs.verify(revealedEmployeeCredential, {
-      suite,
-      purpose: new AssertionProofPurpose(),
-      documentLoader
-    });
-
-    expect(result.verified).to.be.true;
-  });
-
-  it('should verify non derived credential', async () => {
-    const cryptosuite = createVerifyCryptosuite();
-    const suite = new DataIntegrityProof({cryptosuite});
-    const result = await jsigs.verify(signedEmployeeCredential, {
       suite,
       purpose: new AssertionProofPurpose(),
       documentLoader
