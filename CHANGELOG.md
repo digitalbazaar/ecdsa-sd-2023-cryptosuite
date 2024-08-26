@@ -1,5 +1,10 @@
 # @digitalbazaar/ecdsa-sd-2023-cryptosuite Changelog
 
+## 3.4.1 - 2024-08-dd
+
+### Fixed
+- Use `@digitalbazaar/di-sd-primitives@3.0.4` to get latest bug fixes.
+
 ## 3.4.0 - 2024-08-17
 
 ### Added
